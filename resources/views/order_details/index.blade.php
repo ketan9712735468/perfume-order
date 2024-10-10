@@ -12,6 +12,58 @@
         <div class="mx-auto px-4">
             <div class="bg-white shadow-xl rounded-lg">
                 <div class="p-4">
+
+                    <!-- Filter Form -->
+                    <form method="GET" class="mb-4">
+                        <div class="flex items-center justify-center space-x-4">
+                            <input type="text" name="search" placeholder="Search..." class="border rounded-md p-2 w-1/4" value="{{ request('search') }}">
+
+                            <select name="branch_id" class="border rounded-md p-2 w-1/4">
+                                <option value="">Select Branch</option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <select name="employee_id" class="border rounded-md p-2 w-1/4">
+                                <option value="">Select Employee</option>
+                                @foreach ($employees as $employee)
+                                    <option value="{{ $employee->id }}" {{ request('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <select name="vendor_id" class="border rounded-md p-2 w-1/4">
+                                <option value="">Select Vendor</option>
+                                @foreach ($vendors as $vendor)
+                                    <option value="{{ $vendor->id }}" {{ request('vendor_id') == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <select name="type_id" class="border rounded-md p-2 w-1/4">
+                                <option value="">Select Type</option>
+                                @foreach ($types as $type)
+                                    <option value="{{ $type->id }}" {{ request('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <select name="tracking_company_id" class="border rounded-md p-2 w-1/4">
+                                <option value="">Select Tracking Company</option>
+                                @foreach ($trackingCompanies as $trackingCompany)
+                                    <option value="{{ $trackingCompany->id }}" {{ request('tracking_company_id') == $trackingCompany->id ? 'selected' : '' }}>{{ $trackingCompany->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <select name="stock_control_status_id" class="border rounded-md p-2 w-1/4">
+                                <option value="">Select Stock Control Status</option>
+                                @foreach ($stockControlStatuses as $status)
+                                    <option value="{{ $status->id }}" {{ request('stock_control_status_id') == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">{{ __('Filter') }}</button>
+                        </div>
+                    </form>
+
                     @if(session('success'))
                         <div class="fixed top-4 right-4 max-w-sm w-full bg-green-100 border border-green-400 text-green-700 p-4 mb-4 rounded-md shadow-lg transition-opacity duration-300 ease-in-out opacity-100" role="alert">
                             <div class="flex items-start">

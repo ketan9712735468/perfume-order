@@ -14,11 +14,63 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 class OrderDetailController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orderDetails = OrderDetail::all();
-        return view('order_details.index', compact('orderDetails'));
+        // Fetching all foreign data for filters
+        $branches = Branch::all();
+        $employees = Employee::all();
+        $vendors = Vendor::all();
+        $types = Type::all();
+        $trackingCompanies = TrackingCompany::all();
+        $stockControlStatuses = StockControlStatus::all();
+    
+        // Fetching order details with filtering logic
+        $orderDetails = OrderDetail::with(['branch', 'employee', 'vendor', 'type', 'trackingCompany', 'stock_control_status']);
+    
+        // Apply filters if any
+        if ($request->filled('branch_id')) {
+            $orderDetails->where('branch_id', $request->branch_id);
+        }
+        if ($request->filled('employee_id')) {
+            $orderDetails->where('employee_id', $request->employee_id);
+        }
+        if ($request->filled('vendor_id')) {
+            $orderDetails->where('vendor_id', $request->vendor_id);
+        }
+        if ($request->filled('type_id')) {
+            $orderDetails->where('type_id', $request->type_id);
+        }
+        if ($request->filled('tracking_company_id')) {
+            $orderDetails->where('tracking_company_id', $request->tracking_company_id);
+        }
+        if ($request->filled('stock_control_status_id')) {
+            $orderDetails->where('stock_control_status_id', $request->stock_control_status_id);
+        }
+    
+        // Search functionality
+        if ($request->filled('search')) {
+            $searchTerm = $request->input('search');
+            $orderDetails->where(function ($query) use ($searchTerm) {
+                $query->where('sales_order', 'like', "%{$searchTerm}%")
+                      ->orWhere('invoice_number', 'like', "%{$searchTerm}%")
+                      ->orWhere('freight', 'like', "%{$searchTerm}%")
+                      ->orWhere('total_amount', 'like', "%{$searchTerm}%")
+                      ->orWhere('variants', 'like', "%{$searchTerm}%")
+                      ->orWhere('sb', 'like', "%{$searchTerm}%")
+                      ->orWhere('rb', 'like', "%{$searchTerm}%")
+                      ->orWhere('units', 'like', "%{$searchTerm}%")
+                      ->orWhere('received', 'like', "%{$searchTerm}%")
+                      ->orWhere('note', 'like', "%{$searchTerm}%")
+                      ->orWhere('order_number', 'like', "%{$searchTerm}%");
+            });
+        }
+    
+        // Execute the query and get the results
+        $orderDetails = $orderDetails->paginate(100); // Use paginate or get based on your needs
+    
+        return view('order_details.index', compact('orderDetails', 'branches', 'employees', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
     }
+    
 
     public function create()
     {
