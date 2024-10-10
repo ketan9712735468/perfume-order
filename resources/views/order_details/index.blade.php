@@ -127,6 +127,7 @@
                         <table class="min-w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-left">Sr No.</th>
                                     <th class="py-3 px-6 text-left">Branch</th>
                                     <th class="py-3 px-6 text-left">Emp. Name</th>
                                     <th class="py-3 px-6 text-left">Email Date</th>
@@ -156,6 +157,7 @@
                             <tbody class="text-gray-700 text-sm font-light">
                                 @foreach($orderDetails as $orderDetail)
                                     <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                        <td class="py-3 px-6 text-left">{{ $loop->iteration }}</td>
                                         <td class="py-3 px-6 text-left">{{ $orderDetail->branch->name ?? 'N/A' }}</td>
                                         <td class="py-3 px-6 text-left">{{ $orderDetail->employee->name ?? 'N/A' }}</td>
                                         <td class="py-3 px-6 text-left">{{ $orderDetail->email_date ?? 'N/A' }}</td>

@@ -25,7 +25,8 @@ class OrderDetailController extends Controller
         $stockControlStatuses = StockControlStatus::all();
     
         // Fetching order details with filtering logic
-        $orderDetails = OrderDetail::with(['branch', 'employee', 'vendor', 'type', 'trackingCompany', 'stock_control_status']);
+        $orderDetails = OrderDetail::with(['branch', 'employee', 'vendor', 'type', 'trackingCompany', 'stock_control_status'])
+        ->orderBy('created_at', 'desc');
     
         // Apply filters if any
         if ($request->filled('branch_id')) {
