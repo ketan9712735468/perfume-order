@@ -21,8 +21,8 @@
                                         <input type="text" id="name" name="name" value="{{ old('name', $tracking_company->name) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                     </div>
                                     <div class="mb-6">
-                                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Link</label>
-                                        <input type="text" id="name" name="name" value="{{ old('name', $tracking_company->link) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                        <label for="link" class="block text-sm font-medium text-gray-700 mb-2">Link</label>
+                                        <input type="text" id="link" name="link" value="{{ old('link', $tracking_company->link) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                     </div>
                                     <div class="mb-6">
                                         <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Note</label>

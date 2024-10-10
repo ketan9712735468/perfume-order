@@ -55,5 +55,9 @@ class OrderDetail extends Model
     public function trackingCompany() {
         return $this->belongsTo(TrackingCompany::class);
     }
+
+    public function stock_control_status() {
+        return $this->belongsTo(StockControlStatus::class);
+    }
     
 }

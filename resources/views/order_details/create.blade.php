@@ -88,7 +88,7 @@
                         <!-- Sales Order -->
                         <div class="mb-4">
                             <label for="sales_order" class="block text-gray-700">Sales Order</label>
-                            <input type="text" id="sales_order" name="sales_order" value="{{ old('sales_order') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <input type="text" id="sales_order" name="sales_order" value="{{ old('sales_order') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                             @error('sales_order')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -97,7 +97,7 @@
                         <!-- Invoice Number -->
                         <div class="mb-4">
                             <label for="invoice_number" class="block text-gray-700">Invoice Number</label>
-                            <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                             @error('invoice_number')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
