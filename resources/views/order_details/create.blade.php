@@ -231,11 +231,11 @@
                                 @enderror
                             </div>
 
-                            <!-- Note -->
+                             <!-- Order Number -->
                             <div>
-                                <label for="note" class="block text-gray-700">Note</label>
-                                <textarea id="note" name="note" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ old('note') }}</textarea>
-                                @error('note')
+                                <label for="order_number" class="block text-gray-700">Order Number</label>
+                                <input type="text" id="order_number" name="order_number" value="{{ old('order_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                @error('order_number')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -256,16 +256,15 @@
                                 @enderror
                             </div>
 
-                            <!-- Order Number -->
+                            <!-- Note -->
                             <div>
-                                <label for="order_number" class="block text-gray-700">Order Number</label>
-                                <input type="text" id="order_number" name="order_number" value="{{ old('order_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
-                                @error('order_number')
+                                <label for="note" class="block text-gray-700">Note</label>
+                                <textarea id="note" name="note" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ old('note') }}</textarea>
+                                @error('note')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
-
                         <div class="flex justify-end">
                             <a href="{{ url()->previous() }}" class="inline-flex items-center px-4 py-2 mr-4 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">{{ __('Back') }}</a>
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">{{ __('Create') }}</button>

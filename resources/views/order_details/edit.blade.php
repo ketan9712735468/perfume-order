@@ -8,19 +8,18 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <form method="POST" action="{{ route('order_details.update', $orderDetail) }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="p-6">
-
-                        <!-- Branch -->
-                        <div class="mb-4">
-                            <label for="branch_id" class="block text-sm font-medium text-gray-700">Branch</label>
-                            <select id="branch_id" name="branch_id" required class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <form method="POST" action="{{ route('order_details.update', $orderDetail) }}">
+                @csrf
+                @method('PUT')
+                <div class="p-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                        <!-- Branch Dropdown -->
+                        <div>
+                            <label for="branch_id" class="block text-gray-700">Branch</label>
+                            <select id="branch_id" name="branch_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                <option value="">Select Branch</option>
                                 @foreach($branches as $branch)
-                                    <option value="{{ $branch->id }}" {{ $branch->id == $orderDetail->branch_id ? 'selected' : '' }}>
-                                        {{ $branch->name }}
-                                    </option>
+                                    <option value="{{ $branch->id }}" {{ old('branch_id', $orderDetail->branch_id) == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
                                 @endforeach
                             </select>
                             @error('branch_id')
@@ -28,14 +27,13 @@
                             @enderror
                         </div>
 
-                        <!-- Employee Name -->
-                        <div class="mb-4">
-                            <label for="employee_id" class="block text-sm font-medium text-gray-700">Employee Name</label>
-                            <select id="employee_id" name="employee_id" required class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <!-- Employee Name Dropdown -->
+                        <div>
+                            <label for="employee_id" class="block text-gray-700">Employee Name</label>
+                            <select id="employee_id" name="employee_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                <option value="">Select Employee</option>
                                 @foreach($employees as $employee)
-                                    <option value="{{ $employee->id }}" {{ $employee->id == $orderDetail->employee_id ? 'selected' : '' }}>
-                                        {{ $employee->name }}
-                                    </option>
+                                    <option value="{{ $employee->id }}" {{ old('employee_id', $orderDetail->employee_id) == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
                                 @endforeach
                             </select>
                             @error('employee_id')
@@ -44,31 +42,32 @@
                         </div>
 
                         <!-- Email Date -->
-                        <div class="mb-4">
-                            <label for="email_date" class="block text-sm font-medium text-gray-700">Email Date</label>
-                            <input type="date" id="email_date" name="email_date" value="{{ $orderDetail->email_date->format('Y-m-d') }}" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="email_date" class="block text-gray-700">Email Date</label>
+                            <input type="date" id="email_date" name="email_date" value="{{ old('email_date', $orderDetail->email_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('email_date')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                         <!-- Response Date -->
-                        <div class="mb-4">
-                            <label for="response_date" class="block text-sm font-medium text-gray-700">Response Date</label>
-                            <input type="date" id="response_date" name="response_date" value="{{ $orderDetail->response_date->format('Y-m-d') }}" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="response_date" class="block text-gray-700">Response Date</label>
+                            <input type="date" id="response_date" name="response_date" value="{{ old('response_date', $orderDetail->response_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('response_date')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <!-- Vendor Name -->
-                        <div class="mb-4">
-                            <label for="vendor_id" class="block text-sm font-medium text-gray-700">Vendor Name</label>
-                            <select id="vendor_id" name="vendor_id" required class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <!-- Vendor Name Dropdown -->
+                        <div>
+                            <label for="vendor_id" class="block text-gray-700">Vendor Name</label>
+                            <select id="vendor_id" name="vendor_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                <option value="">Select Vendor</option>
                                 @foreach($vendors as $vendor)
-                                    <option value="{{ $vendor->id }}" {{ $vendor->id == $orderDetail->vendor_id ? 'selected' : '' }}>
-                                        {{ $vendor->name }}
-                                    </option>
+                                    <option value="{{ $vendor->id }}" {{ old('vendor_id', $orderDetail->vendor_id) == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
                                 @endforeach
                             </select>
                             @error('vendor_id')
@@ -76,138 +75,145 @@
                             @enderror
                         </div>
 
-                        <!-- Type -->
-                        <div class="mb-4">
-                            <label for="type_id" class="block text-sm font-medium text-gray-700">Type</label>
-                            <select id="type_id" name="type_id" required class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <!-- Type Dropdown -->
+                        <div>
+                            <label for="type_id" class="block text-gray-700">Type</label>
+                            <select id="type_id" name="type_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                <option value="">Select Type</option>
                                 @foreach($types as $type)
-                                    <option value="{{ $type->id }}" {{ $type->id == $orderDetail->type_id ? 'selected' : '' }}>
-                                        {{ $type->name }}
-                                    </option>
+                                    <option value="{{ $type->id }}" {{ old('type_id', $orderDetail->type_id) == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
                                 @endforeach
                             </select>
                             @error('type_id')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                         <!-- Sales Order -->
-                        <div class="mb-4">
-                            <label for="sales_order" class="block text-sm font-medium text-gray-700">Sales Order</label>
-                            <input type="text" id="sales_order" name="sales_order" value="{{ $orderDetail->sales_order }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="sales_order" class="block text-gray-700">Sales Order</label>
+                            <input type="text" id="sales_order" name="sales_order" value="{{ old('sales_order', $orderDetail->sales_order) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('sales_order')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Invoice Number -->
-                        <div class="mb-4">
-                            <label for="invoice_number" class="block text-sm font-medium text-gray-700">Invoice Number</label>
-                            <input type="text" id="invoice_number" name="invoice_number" value="{{ $orderDetail->invoice_number }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="invoice_number" class="block text-gray-700">Invoice Number</label>
+                            <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number', $orderDetail->invoice_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('invoice_number')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Freight -->
-                        <div class="mb-4">
-                            <label for="freight" class="block text-sm font-medium text-gray-700">Freight</label>
-                            <input type="number" id="freight" name="freight" value="{{ $orderDetail->freight }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="freight" class="block text-gray-700">Freight</label>
+                            <input type="number" step="0.01" id="freight" name="freight" value="{{ old('freight', $orderDetail->freight) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('freight')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                         <!-- Total Amount -->
-                        <div class="mb-4">
-                            <label for="total_amount" class="block text-sm font-medium text-gray-700">Total Amount</label>
-                            <input type="number" id="total_amount" name="total_amount" value="{{ $orderDetail->total_amount }}" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="total_amount" class="block text-gray-700">Total Amount</label>
+                            <input type="number" step="0.01" id="total_amount" name="total_amount" value="{{ old('total_amount', $orderDetail->total_amount) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('total_amount')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Paid Date -->
-                        <div class="mb-4">
-                            <label for="paid_date" class="block text-sm font-medium text-gray-700">Paid Date</label>
-                            <input type="date" id="paid_date" name="paid_date" value="{{ $orderDetail->paid_date->format('Y-m-d') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="paid_date" class="block text-gray-700">Paid Date</label>
+                            <input type="date" id="paid_date" name="paid_date" value="{{ old('paid_date', $orderDetail->paid_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('paid_date')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Paid Amount -->
-                        <div class="mb-4">
-                            <label for="paid_amount" class="block text-sm font-medium text-gray-700">Paid Amount</label>
-                            <input type="number" id="paid_amount" name="paid_amount" value="{{ $orderDetail->paid_amount }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="paid_amount" class="block text-gray-700">Paid Amount</label>
+                            <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ old('paid_amount', $orderDetail->paid_amount) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('paid_amount')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                         <!-- Variants -->
-                        <div class="mb-4">
-                            <label for="variants" class="block text-sm font-medium text-gray-700">Variants</label>
-                            <input type="text" id="variants" name="variants" value="{{ $orderDetail->variants }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="variants" class="block text-gray-700">Variants</label>
+                            <input type="text" id="variants" name="variants" value="{{ old('variants', $orderDetail->variants) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('variants')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- SB -->
-                        <div class="mb-4">
-                            <label for="sb" class="block text-sm font-medium text-gray-700">SB</label>
-                            <input type="text" id="sb" name="sb" value="{{ $orderDetail->sb }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="sb" class="block text-gray-700">SB</label>
+                            <input type="text" id="sb" name="sb" value="{{ old('sb', $orderDetail->sb) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('sb')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- RB -->
-                        <div class="mb-4">
-                            <label for="rb" class="block text-sm font-medium text-gray-700">RB</label>
-                            <input type="text" id="rb" name="rb" value="{{ $orderDetail->rb }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="rb" class="block text-gray-700">RB</label>
+                            <input type="text" id="rb" name="rb" value="{{ old('rb', $orderDetail->rb) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('rb')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                         <!-- Units -->
-                        <div class="mb-4">
-                            <label for="units" class="block text-sm font-medium text-gray-700">Units</label>
-                            <input type="number" id="units" name="units" value="{{ $orderDetail->units }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="units" class="block text-gray-700">Units</label>
+                            <input type="number" id="units" name="units" value="{{ old('units', $orderDetail->units) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('units')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Received -->
-                        <div class="mb-4">
-                            <label for="received" class="block text-sm font-medium text-gray-700">Received</label>
-                            <input type="text" id="received" name="received" value="{{ $orderDetail->received }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="received" class="block text-gray-700">Received</label>
+                            <input type="number" id="received" name="received" value="{{ old('received', $orderDetail->received) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('received')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Delivery Date -->
-                        <div class="mb-4">
-                            <label for="delivery_date" class="block text-sm font-medium text-gray-700">Delivery Date</label>
-                            <input type="date" id="delivery_date" name="delivery_date" value="{{ $orderDetail->delivery_date->format('Y-m-d') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="delivery_date" class="block text-gray-700">Delivery Date</label>
+                            <input type="date" id="delivery_date" name="delivery_date" value="{{ old('delivery_date', $orderDetail->delivery_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('delivery_date')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
-                        <!-- Tracking Company -->
-                        <div class="mb-4">
-                            <label for="tracking_company_id" class="block text-sm font-medium text-gray-700">Tracking Company</label>
-                            <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                        <!-- Tracking Company Dropdown -->
+                        <div>
+                            <label for="tracking_company_id" class="block text-gray-700">Tracking Company</label>
+                            <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 <option value="">Select Tracking Company</option>
                                 @foreach($trackingCompanies as $company)
-                                    <option value="{{ $company->id }}" {{ $company->id == $orderDetail->tracking_company_id ? 'selected' : '' }}>
-                                        {{ $company->name }}
-                                    </option>
+                                    <option value="{{ $company->id }}" {{ old('tracking_company_id', $orderDetail->tracking_company_id) == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
                                 @endforeach
                             </select>
                             @error('tracking_company_id')
@@ -216,55 +222,55 @@
                         </div>
 
                         <!-- Tracking Number -->
-                        <div class="mb-4">
-                            <label for="tracking_number" class="block text-sm font-medium text-gray-700">Tracking Number</label>
-                            <input type="text" id="tracking_number" name="tracking_number" value="{{ $orderDetail->tracking_number }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="tracking_number" class="block text-gray-700">Tracking Number</label>
+                            <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number', $orderDetail->tracking_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('tracking_number')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <!-- Note -->
-                        <div class="mb-4">
-                            <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
-                            <textarea id="note" name="note" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ $orderDetail->note }}</textarea>
-                            @error('note')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Stock Control Status -->
-                        <div class="mb-4">
-                            <label for="stock_control_status_id" class="block text-sm font-medium text-gray-700">Stock Control Status</label>
-                            <select id="stock_control_status_id" name="stock_control_status_id" class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="">Select Stock Control Status</option>
-                                @foreach($stockControlStatuses as $status)
-                                    <option value="{{ $status->id }}" {{ $status->id == $orderDetail->stock_control_status_id ? 'selected' : '' }}>
-                                        {{ $status->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('stock_control_status_id')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
                         <!-- Order Number -->
-                        <div class="mb-4">
-                            <label for="order_number" class="block text-sm font-medium text-gray-700">Order Number</label>
-                            <input type="text" id="order_number" name="order_number" value="{{ $orderDetail->order_number }}" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div>
+                            <label for="order_number" class="block text-gray-700">Order Number</label>
+                            <input type="text" id="order_number" name="order_number" value="{{ old('order_number', $orderDetail->order_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                             @error('order_number')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
-                        <!-- Submit Button -->
-                        <div class="flex justify-end">
-                            <a href="{{ url()->previous() }}" class="inline-flex items-center px-4 py-2 mr-4 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">{{ __('Back') }}</a>
-                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">{{ __('Update') }}</button>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                        <!-- Stock Control Status Dropdown -->
+                        <div>
+                            <label for="stock_control_status" class="block text-gray-700">Stock Control Status</label>
+                            <select id="stock_control_status" name="stock_control_status" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                <option value="">Select Status</option>
+                                @foreach($stockControlStatuses as $status)
+                                    <option value="{{ $status->id }}" {{ old('stock_control_status', $orderDetail->stock_control_status) == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('stock_control_status')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <!-- Note -->
+                        <div>
+                            <label for="note" class="block text-gray-700">Note</label>
+                            <textarea id="note" name="note" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ old('note', $orderDetail->note) }}</textarea>
+                            @error('note')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
-                </form>
+
+                    <!-- Submit Button -->
+                    <div class="flex justify-end">
+                        <a href="{{ url()->previous() }}" class="inline-flex items-center px-4 py-2 mr-4 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">{{ __('Back') }}</a>
+                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">{{ __('Update') }}</button>
+                    </div>
+                </div>
+            </form>
             </div>
         </div>
     </div>
