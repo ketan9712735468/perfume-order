@@ -11,241 +11,259 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form action="{{ route('order_details.store') }}" method="POST">
                         @csrf
-                        <!-- Branch Dropdown -->
-                        <div class="mb-4">
-                            <label for="branch_id" class="block text-gray-700">Branch</label>
-                            <select id="branch_id" name="branch_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
-                                <option value="">Select Branch</option>
-                                @foreach($branches as $branch)
-                                    <option value="{{ $branch->id }}" {{ old('branch_id') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('branch_id')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+
+                        <!-- Horizontal Field Group -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <!-- Branch Dropdown -->
+                            <div>
+                                <label for="branch_id" class="block text-gray-700">Branch</label>
+                                <select id="branch_id" name="branch_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                    <option value="">Select Branch</option>
+                                    @foreach($branches as $branch)
+                                        <option value="{{ $branch->id }}" {{ old('branch_id') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('branch_id')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Employee Name Dropdown -->
+                            <div>
+                                <label for="employee_id" class="block text-gray-700">Employee Name</label>
+                                <select id="employee_id" name="employee_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                    <option value="">Select Employee</option>    
+                                    @foreach($employees as $employee)
+                                        <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('employee_id')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Email Date -->
+                            <div>
+                                <label for="email_date" class="block text-gray-700">Email Date</label>
+                                <input type="date" id="email_date" name="email_date" value="{{ old('email_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                @error('email_date')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Employee Name Dropdown -->
-                        <div class="mb-4">
-                            <label for="employee_id" class="block text-gray-700">Employee Name</label>
-                            <select id="employee_id" name="employee_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
-                                <option value="">Select Employee</option>    
-                                @foreach($employees as $employee)
-                                    <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('employee_id')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <!-- Response Date -->
+                            <div>
+                                <label for="response_date" class="block text-gray-700">Response Date</label>
+                                <input type="date" id="response_date" name="response_date" value="{{ old('response_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                @error('response_date')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Vendor Name Dropdown -->
+                            <div>
+                                <label for="vendor_id" class="block text-gray-700">Vendor Name</label>
+                                <select id="vendor_id" name="vendor_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                    <option value="">Select Vendor</option>
+                                    @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}" {{ old('vendor_id') == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('vendor_id')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Type Dropdown -->
+                            <div>
+                                <label for="type_id" class="block text-gray-700">Type</label>
+                                <select id="type_id" name="type_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                    <option value="">Select Type</option>
+                                    @foreach($types as $type)
+                                        <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('type_id')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Email Date -->
-                        <div class="mb-4">
-                            <label for="email_date" class="block text-gray-700">Email Date</label>
-                            <input type="date" id="email_date" name="email_date" value="{{ old('email_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
-                            @error('email_date')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <!-- Sales Order -->
+                            <div>
+                                <label for="sales_order" class="block text-gray-700">Sales Order</label>
+                                <input type="text" id="sales_order" name="sales_order" value="{{ old('sales_order') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('sales_order')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Invoice Number -->
+                            <div>
+                                <label for="invoice_number" class="block text-gray-700">Invoice Number</label>
+                                <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('invoice_number')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Freight (Currency) -->
+                            <div>
+                                <label for="freight" class="block text-gray-700">Freight</label>
+                                <input type="number" step="0.01" id="freight" name="freight" value="{{ old('freight') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="$0.00">
+                                @error('freight')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Response Date -->
-                        <div class="mb-4">
-                            <label for="response_date" class="block text-gray-700">Response Date</label>
-                            <input type="date" id="response_date" name="response_date" value="{{ old('response_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
-                            @error('response_date')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <!-- Total Amount (Currency) -->
+                            <div>
+                                <label for="total_amount" class="block text-gray-700">Total Amount</label>
+                                <input type="number" step="0.01" id="total_amount" name="total_amount" value="{{ old('total_amount') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required placeholder="$0.00">
+                                @error('total_amount')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Paid Date -->
+                            <div>
+                                <label for="paid_date" class="block text-gray-700">Paid Date</label>
+                                <input type="date" id="paid_date" name="paid_date" value="{{ old('paid_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('paid_date')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Paid Amount (Currency) -->
+                            <div>
+                                <label for="paid_amount" class="block text-gray-700">Paid Amount</label>
+                                <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ old('paid_amount') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="$0.00">
+                                @error('paid_amount')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Vendor Name Dropdown -->
-                        <div class="mb-4">
-                            <label for="vendor_id" class="block text-gray-700">Vendor Name</label>
-                            <select id="vendor_id" name="vendor_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
-                                <option value="">Select Vendor</option>
-                                @foreach($vendors as $vendor)
-                                    <option value="{{ $vendor->id }}" {{ old('vendor_id') == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('vendor_id')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <!-- Variants -->
+                            <div>
+                                <label for="variants" class="block text-gray-700">Variants</label>
+                                <input type="text" id="variants" name="variants" value="{{ old('variants') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('variants')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- SB -->
+                            <div>
+                                <label for="sb" class="block text-gray-700">SB</label>
+                                <input type="text" id="sb" name="sb" value="{{ old('sb') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('sb')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- RB -->
+                            <div>
+                                <label for="rb" class="block text-gray-700">RB</label>
+                                <input type="text" id="rb" name="rb" value="{{ old('rb') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('rb')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Type Dropdown -->
-                        <div class="mb-4">
-                            <label for="type_id" class="block text-gray-700">Type</label>
-                            <select id="type_id" name="type_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
-                                <option value="">Select Type</option>
-                                @foreach($types as $type)
-                                    <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('type_id')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <!-- Units -->
+                            <div>
+                                <label for="units" class="block text-gray-700">Units</label>
+                                <input type="number" id="units" name="units" value="{{ old('units') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('units')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Received -->
+                            <div>
+                                <label for="received" class="block text-gray-700">Received</label>
+                                <input type="number" id="received" name="received" value="{{ old('received') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('received')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Delivery Date -->
+                            <div>
+                                <label for="delivery_date" class="block text-gray-700">Delivery Date</label>
+                                <input type="date" id="delivery_date" name="delivery_date" value="{{ old('delivery_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('delivery_date')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Sales Order -->
-                        <div class="mb-4">
-                            <label for="sales_order" class="block text-gray-700">Sales Order</label>
-                            <input type="text" id="sales_order" name="sales_order" value="{{ old('sales_order') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('sales_order')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <!-- Tracking Company Dropdown -->
+                            <div>
+                                <label for="tracking_company_id" class="block text-gray-700">Tracking Company</label>
+                                <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                    <option value="">Select Tracking Company</option>
+                                    @foreach($trackingCompanies as $company)
+                                        <option value="{{ $company->id }}" {{ old('tracking_company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('tracking_company_id')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Tracking Number -->
+                            <div>
+                                <label for="tracking_number" class="block text-gray-700">Tracking Number</label>
+                                <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                @error('tracking_number')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Note -->
+                            <div>
+                                <label for="note" class="block text-gray-700">Note</label>
+                                <textarea id="note" name="note" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ old('note') }}</textarea>
+                                @error('note')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Invoice Number -->
-                        <div class="mb-4">
-                            <label for="invoice_number" class="block text-gray-700">Invoice Number</label>
-                            <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('invoice_number')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <!-- Stock Control Status Dropdown -->
+                            <div>
+                                <label for="stock_control_status_id" class="block text-gray-700">Stock Control Status</label>
+                                <select id="stock_control_status_id" name="stock_control_status_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                    <option value="">Select Status</option>
+                                    @foreach($stockControlStatuses as $stock_control_status)
+                                        <option value="{{ $stock_control_status->id }}" {{ old('stock_control_status_id') == $stock_control_status->id ? 'selected' : '' }}>{{ $stock_control_status->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('stock_control_status_id')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                        <!-- Freight (Currency) -->
-                        <div class="mb-4">
-                            <label for="freight" class="block text-gray-700">Freight</label>
-                            <input type="number" step="0.01" id="freight" name="freight" value="{{ old('freight') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="$0.00">
-                            @error('freight')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Total Amount (Currency) -->
-                        <div class="mb-4">
-                            <label for="total_amount" class="block text-gray-700">Total Amount</label>
-                            <input type="number" step="0.01" id="total_amount" name="total_amount" value="{{ old('total_amount') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required placeholder="$0.00">
-                            @error('total_amount')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Paid Date -->
-                        <div class="mb-4">
-                            <label for="paid_date" class="block text-gray-700">Paid Date</label>
-                            <input type="date" id="paid_date" name="paid_date" value="{{ old('paid_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('paid_date')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Paid Amount (Currency) -->
-                        <div class="mb-4">
-                            <label for="paid_amount" class="block text-gray-700">Paid Amount</label>
-                            <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ old('paid_amount') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="$0.00">
-                            @error('paid_amount')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Variants -->
-                        <div class="mb-4">
-                            <label for="variants" class="block text-gray-700">Variants</label>
-                            <input type="text" id="variants" name="variants" value="{{ old('variants') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('variants')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- SB -->
-                        <div class="mb-4">
-                            <label for="sb" class="block text-gray-700">SB</label>
-                            <input type="number" id="sb" name="sb" value="{{ old('sb') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('sb')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- RB -->
-                        <div class="mb-4">
-                            <label for="rb" class="block text-gray-700">RB</label>
-                            <input type="number" id="rb" name="rb" value="{{ old('rb') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('rb')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Units -->
-                        <div class="mb-4">
-                            <label for="units" class="block text-gray-700">Units</label>
-                            <input type="number" id="units" name="units" value="{{ old('units') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('units')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Received -->
-                        <div class="mb-4">
-                            <label for="received" class="block text-gray-700">Received</label>
-                            <input type="number" id="received" name="received" value="{{ old('received') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('received')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Delivery Date -->
-                        <div class="mb-4">
-                            <label for="delivery_date" class="block text-gray-700">Delivery Date</label>
-                            <input type="date" id="delivery_date" name="delivery_date" value="{{ old('delivery_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('delivery_date')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Tracking Company Dropdown -->
-                        <div class="mb-4">
-                            <label for="tracking_company_id" class="block text-gray-700">Tracking Company</label>
-                            <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                                <option value="">Select Tracking Company</option>
-                                @foreach($trackingCompanies as $trackingCompany)
-                                    <option value="{{ $trackingCompany->id }}" {{ old('tracking_company_id') == $trackingCompany->id ? 'selected' : '' }}>{{ $trackingCompany->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('tracking_company_id')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Tracking Number -->
-                        <div class="mb-4">
-                            <label for="tracking_number" class="block text-gray-700">Tracking Number</label>
-                            <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('tracking_number')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Note -->
-                        <div class="mb-4">
-                            <label for="note" class="block text-gray-700">Note</label>
-                            <textarea id="note" name="note" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ old('note') }}</textarea>
-                            @error('note')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Stock Control Status Dropdown -->
-                        <div class="mb-4">
-                            <label for="stock_control_status_id" class="block text-gray-700">Stock Control Status</label>
-                            <select id="stock_control_status_id" name="stock_control_status_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                                <option value="">Select Stock Control Status</option>
-                                @foreach($stockControlStatuses as $status)
-                                    <option value="{{ $status->id }}" {{ old('stock_control_status_id') == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('stock_control_status_id')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Order Number -->
-                        <div class="mb-4">
-                            <label for="order_number" class="block text-gray-700">Order Number</label>
-                            <input type="text" id="order_number" name="order_number" value="{{ old('order_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('order_number')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+                            <!-- Order Number -->
+                            <div>
+                                <label for="order_number" class="block text-gray-700">Order Number</label>
+                                <input type="text" id="order_number" name="order_number" value="{{ old('order_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                @error('order_number')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="flex justify-end">
@@ -267,5 +285,4 @@
         });
     });
 </script>
-
 </x-app-layout>
