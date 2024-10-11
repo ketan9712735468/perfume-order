@@ -18,31 +18,27 @@
                         <div class="flex items-center justify-center space-x-4">
                             <input type="text" name="search" placeholder="Search..." class="border rounded-md p-2 w-1/4" value="{{ request('search') }}">
 
-                            <select name="branch_id" class="border rounded-md p-2 w-1/4">
-                                <option value="">Select Branch</option>
+                            <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="branch_id[]" multiple="multiple" id="branch-select">
                                 @foreach ($branches as $branch)
-                                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                                    <option value="{{ $branch->id }}" {{ is_array(request('branch_id')) && in_array($branch->id, request('branch_id')) ? 'selected' : '' }}>{{ $branch->name }}</option>
                                 @endforeach
                             </select>
 
-                            <select name="vendor_id" class="border rounded-md p-2 w-1/4">
-                                <option value="">Select Vendor</option>
+                            <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="vendor_id[]" multiple="multiple" id="vendor-select">
                                 @foreach ($vendors as $vendor)
-                                    <option value="{{ $vendor->id }}" {{ request('vendor_id') == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
+                                    <option value="{{ $vendor->id }}" {{ is_array(request('vendor_id')) && in_array($vendor->id, request('vendor_id')) ? 'selected' : '' }}>{{ $vendor->name }}</option>
                                 @endforeach
                             </select>
 
-                            <select name="type_id" class="border rounded-md p-2 w-1/4">
-                                <option value="">Select Type</option>
+                            <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="type_id[]" multiple="multiple" id="type-select">
                                 @foreach ($types as $type)
-                                    <option value="{{ $type->id }}" {{ request('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                    <option value="{{ $type->id }}" {{ is_array(request('type_id')) && in_array($type->id, request('type_id')) ? 'selected' : '' }}>{{ $type->name }}</option>
                                 @endforeach
                             </select>
 
-                            <select name="stock_control_status_id" class="border rounded-md p-2 w-1/4">
-                                <option value="">Select Stock Control Status</option>
+                            <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="stock_control_status_id[]" multiple="multiple" id="stock-control-status-select">
                                 @foreach ($stockControlStatuses as $status)
-                                    <option value="{{ $status->id }}" {{ request('stock_control_status_id') == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                                    <option value="{{ $status->id }}" {{ is_array(request('stock_control_status_id')) && in_array($status->id, request('stock_control_status_id')) ? 'selected' : '' }}>{{ $status->name }}</option>
                                 @endforeach
                             </select>
 
@@ -303,4 +299,25 @@
             </div>
         </div>
     </div>
+
+<script>
+    $(document).ready(function() {
+        $('#vendor-select').select2({
+            placeholder: 'Select Vendor',
+            allowClear: true
+        });
+        $('#branch-select').select2({
+            placeholder: 'Select Branch',
+            allowClear: true
+        });
+        $('#type-select').select2({
+            placeholder: 'Select Type',
+            allowClear: true
+        });
+        $('#stock-control-status-select').select2({
+            placeholder: 'Select Stock Control Status',
+            allowClear: true
+        });
+    });
+</script>
 </x-app-layout>
