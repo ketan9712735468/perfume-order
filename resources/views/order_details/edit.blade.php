@@ -16,7 +16,7 @@
                         <!-- Branch -->
                         <div class="mb-4">
                             <label for="branch_id" class="block text-sm font-medium text-gray-700">Branch</label>
-                            <select id="branch_id" name="branch_id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="branch_id" name="branch_id" required class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 @foreach($branches as $branch)
                                     <option value="{{ $branch->id }}" {{ $branch->id == $orderDetail->branch_id ? 'selected' : '' }}>
                                         {{ $branch->name }}
@@ -31,7 +31,7 @@
                         <!-- Employee Name -->
                         <div class="mb-4">
                             <label for="employee_id" class="block text-sm font-medium text-gray-700">Employee Name</label>
-                            <select id="employee_id" name="employee_id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="employee_id" name="employee_id" required class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 @foreach($employees as $employee)
                                     <option value="{{ $employee->id }}" {{ $employee->id == $orderDetail->employee_id ? 'selected' : '' }}>
                                         {{ $employee->name }}
@@ -64,7 +64,7 @@
                         <!-- Vendor Name -->
                         <div class="mb-4">
                             <label for="vendor_id" class="block text-sm font-medium text-gray-700">Vendor Name</label>
-                            <select id="vendor_id" name="vendor_id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="vendor_id" name="vendor_id" required class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 @foreach($vendors as $vendor)
                                     <option value="{{ $vendor->id }}" {{ $vendor->id == $orderDetail->vendor_id ? 'selected' : '' }}>
                                         {{ $vendor->name }}
@@ -79,7 +79,7 @@
                         <!-- Type -->
                         <div class="mb-4">
                             <label for="type_id" class="block text-sm font-medium text-gray-700">Type</label>
-                            <select id="type_id" name="type_id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="type_id" name="type_id" required class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 @foreach($types as $type)
                                     <option value="{{ $type->id }}" {{ $type->id == $orderDetail->type_id ? 'selected' : '' }}>
                                         {{ $type->name }}
@@ -202,7 +202,7 @@
                         <!-- Tracking Company -->
                         <div class="mb-4">
                             <label for="tracking_company_id" class="block text-sm font-medium text-gray-700">Tracking Company</label>
-                            <select id="tracking_company_id" name="tracking_company_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">Select Tracking Company</option>
                                 @foreach($trackingCompanies as $company)
                                     <option value="{{ $company->id }}" {{ $company->id == $orderDetail->tracking_company_id ? 'selected' : '' }}>
@@ -236,7 +236,7 @@
                         <!-- Stock Control Status -->
                         <div class="mb-4">
                             <label for="stock_control_status_id" class="block text-sm font-medium text-gray-700">Stock Control Status</label>
-                            <select id="stock_control_status_id" name="stock_control_status_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="stock_control_status_id" name="stock_control_status_id" class="select-dropdown mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">Select Stock Control Status</option>
                                 @foreach($stockControlStatuses as $status)
                                     <option value="{{ $status->id }}" {{ $status->id == $orderDetail->stock_control_status_id ? 'selected' : '' }}>
@@ -268,4 +268,14 @@
             </div>
         </div>
     </div>
+
+<script>
+    $(document).ready(function() {
+        // Initialize Select2 for all dropdowns with the class 'select-dropdown'
+        $('.select-dropdown').select2({
+            placeholder: "Select an option", // Default placeholder
+            allowClear: true // Allows clearing the selection
+        });
+    });
+</script>
 </x-app-layout>

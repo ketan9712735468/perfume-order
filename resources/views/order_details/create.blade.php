@@ -14,7 +14,7 @@
                         <!-- Branch Dropdown -->
                         <div class="mb-4">
                             <label for="branch_id" class="block text-gray-700">Branch</label>
-                            <select id="branch_id" name="branch_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <select id="branch_id" name="branch_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 <option value="">Select Branch</option>
                                 @foreach($branches as $branch)
                                     <option value="{{ $branch->id }}" {{ old('branch_id') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
@@ -28,7 +28,7 @@
                         <!-- Employee Name Dropdown -->
                         <div class="mb-4">
                             <label for="employee_id" class="block text-gray-700">Employee Name</label>
-                            <select id="employee_id" name="employee_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <select id="employee_id" name="employee_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 <option value="">Select Employee</option>    
                                 @foreach($employees as $employee)
                                     <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
@@ -60,7 +60,7 @@
                         <!-- Vendor Name Dropdown -->
                         <div class="mb-4">
                             <label for="vendor_id" class="block text-gray-700">Vendor Name</label>
-                            <select id="vendor_id" name="vendor_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <select id="vendor_id" name="vendor_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 <option value="">Select Vendor</option>
                                 @foreach($vendors as $vendor)
                                     <option value="{{ $vendor->id }}" {{ old('vendor_id') == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
@@ -74,7 +74,7 @@
                         <!-- Type Dropdown -->
                         <div class="mb-4">
                             <label for="type_id" class="block text-gray-700">Type</label>
-                            <select id="type_id" name="type_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <select id="type_id" name="type_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 <option value="">Select Type</option>
                                 @foreach($types as $type)
                                     <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
@@ -196,7 +196,7 @@
                         <!-- Tracking Company Dropdown -->
                         <div class="mb-4">
                             <label for="tracking_company_id" class="block text-gray-700">Tracking Company</label>
-                            <select id="tracking_company_id" name="tracking_company_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                            <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                 <option value="">Select Tracking Company</option>
                                 @foreach($trackingCompanies as $trackingCompany)
                                     <option value="{{ $trackingCompany->id }}" {{ old('tracking_company_id') == $trackingCompany->id ? 'selected' : '' }}>{{ $trackingCompany->name }}</option>
@@ -228,7 +228,7 @@
                         <!-- Stock Control Status Dropdown -->
                         <div class="mb-4">
                             <label for="stock_control_status_id" class="block text-gray-700">Stock Control Status</label>
-                            <select id="stock_control_status_id" name="stock_control_status_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                            <select id="stock_control_status_id" name="stock_control_status_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                 <option value="">Select Stock Control Status</option>
                                 @foreach($stockControlStatuses as $status)
                                     <option value="{{ $status->id }}" {{ old('stock_control_status_id') == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
@@ -257,4 +257,15 @@
             </div>
         </div>
     </div>
+
+<script>
+    $(document).ready(function() {
+        // Initialize Select2 for all dropdowns with the class 'select-dropdown'
+        $('.select-dropdown').select2({
+            placeholder: "Select an option", // Default placeholder
+            allowClear: true // Allows clearing the selection
+        });
+    });
+</script>
+
 </x-app-layout>
