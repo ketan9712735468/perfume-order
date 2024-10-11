@@ -133,7 +133,7 @@
                             <!-- Paid Date -->
                             <div>
                                 <label for="paid_date" class="block text-gray-700">Paid Date</label>
-                                <input type="date" id="paid_date" name="paid_date" value="{{ old('paid_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                <input type="date" id="paid_date" name="paid_date" value="{{ old('paid_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 @error('paid_date')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -142,7 +142,7 @@
                             <!-- Paid Amount (Currency) -->
                             <div>
                                 <label for="paid_amount" class="block text-gray-700">Paid Amount</label>
-                                <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ old('paid_amount') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="$0.00">
+                                <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ old('paid_amount') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" placeholder="$0.00" required>
                                 @error('paid_amount')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -153,7 +153,7 @@
                             <!-- Variants -->
                             <div>
                                 <label for="variants" class="block text-gray-700">Variants</label>
-                                <input type="text" id="variants" name="variants" value="{{ old('variants') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                <input type="text" id="variants" name="variants" value="{{ old('variants') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 @error('variants')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -162,7 +162,7 @@
                             <!-- SB -->
                             <div>
                                 <label for="sb" class="block text-gray-700">SB</label>
-                                <input type="text" id="sb" name="sb" value="{{ old('sb') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                <input type="text" id="sb" name="sb" value="{{ old('sb') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 @error('sb')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -171,7 +171,7 @@
                             <!-- RB -->
                             <div>
                                 <label for="rb" class="block text-gray-700">RB</label>
-                                <input type="text" id="rb" name="rb" value="{{ old('rb') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                <input type="text" id="rb" name="rb" value="{{ old('rb') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 @error('rb')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -182,7 +182,7 @@
                             <!-- Units -->
                             <div>
                                 <label for="units" class="block text-gray-700">Units</label>
-                                <input type="number" id="units" name="units" value="{{ old('units') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                <input type="number" id="units" name="units" value="{{ old('units') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 @error('units')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -191,7 +191,7 @@
                             <!-- Received -->
                             <div>
                                 <label for="received" class="block text-gray-700">Received</label>
-                                <input type="number" id="received" name="received" value="{{ old('received') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                <input type="number" id="received" name="received" value="{{ old('received') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 @error('received')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -200,7 +200,7 @@
                             <!-- Delivery Date -->
                             <div>
                                 <label for="delivery_date" class="block text-gray-700">Delivery Date</label>
-                                <input type="date" id="delivery_date" name="delivery_date" value="{{ old('delivery_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                <input type="date" id="delivery_date" name="delivery_date" value="{{ old('delivery_date') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                 @error('delivery_date')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -234,7 +234,7 @@
                              <!-- Order Number -->
                             <div>
                                 <label for="order_number" class="block text-gray-700">Order Number</label>
-                                <input type="text" id="order_number" name="order_number" value="{{ old('order_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                <input type="text" id="order_number" name="order_number" value="{{ old('order_number') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                 @error('order_number')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror

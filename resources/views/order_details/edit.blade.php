@@ -233,7 +233,7 @@
                         <!-- Order Number -->
                         <div>
                             <label for="order_number" class="block text-gray-700">Order Number</label>
-                            <input type="text" id="order_number" name="order_number" value="{{ old('order_number', $orderDetail->order_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <input type="text" id="order_number" name="order_number" value="{{ old('order_number', $orderDetail->order_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                             @error('order_number')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -265,7 +265,7 @@
                         <!-- Link -->
                         <div>
                             <label for="link" class="block text-gray-700">Order Number</label>
-                            <input type="text" id="link" name="link" value="{{ old('link', $orderDetail->link) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <input type="text" id="link" name="link" value="{{ old('link', $orderDetail->link) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                             @error('link')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror

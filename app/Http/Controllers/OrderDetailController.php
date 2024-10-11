@@ -38,22 +38,22 @@ class OrderDetailController extends Controller
 
         // Apply filtering logic (same as before)
         if ($request->filled('branch_id')) {
-            $orderDetails->where('branch_id', $request->branch_id);
+            $orderDetails->whereIn('branch_id', $request->branch_id);
         }
         if ($request->filled('employee_id')) {
-            $orderDetails->where('employee_id', $request->employee_id);
+            $orderDetails->whereIn('employee_id', $request->employee_id);
         }
         if ($request->filled('vendor_id')) {
-            $orderDetails->where('vendor_id', $request->vendor_id);
+            $orderDetails->whereIn('vendor_id', $request->vendor_id);
         }
         if ($request->filled('type_id')) {
-            $orderDetails->where('type_id', $request->type_id);
+            $orderDetails->whereIn('type_id', $request->type_id);
         }
         if ($request->filled('tracking_company_id')) {
-            $orderDetails->where('tracking_company_id', $request->tracking_company_id);
+            $orderDetails->whereIn('tracking_company_id', $request->tracking_company_id);
         }
         if ($request->filled('stock_control_status_id')) {
-            $orderDetails->where('stock_control_status_id', $request->stock_control_status_id);
+            $orderDetails->whereIn('stock_control_status_id', $request->stock_control_status_id);
         }
 
         // Search functionality
