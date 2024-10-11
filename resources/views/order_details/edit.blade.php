@@ -112,7 +112,7 @@
                         <!-- Freight -->
                         <div class="mb-4">
                             <label for="freight" class="block text-sm font-medium text-gray-700">Freight</label>
-                            <input type="number" id="freight" name="freight" value="{{ $orderDetail->freight }}" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <input type="number" id="freight" name="freight" value="{{ $orderDetail->freight }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                             @error('freight')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -202,7 +202,8 @@
                         <!-- Tracking Company -->
                         <div class="mb-4">
                             <label for="tracking_company_id" class="block text-sm font-medium text-gray-700">Tracking Company</label>
-                            <select id="tracking_company_id" name="tracking_company_id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="tracking_company_id" name="tracking_company_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">Select Tracking Company</option>
                                 @foreach($trackingCompanies as $company)
                                     <option value="{{ $company->id }}" {{ $company->id == $orderDetail->tracking_company_id ? 'selected' : '' }}>
                                         {{ $company->name }}
@@ -235,7 +236,8 @@
                         <!-- Stock Control Status -->
                         <div class="mb-4">
                             <label for="stock_control_status_id" class="block text-sm font-medium text-gray-700">Stock Control Status</label>
-                            <select id="stock_control_status_id" name="stock_control_status_id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="stock_control_status_id" name="stock_control_status_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">Select Stock Control Status</option>
                                 @foreach($stockControlStatuses as $status)
                                     <option value="{{ $status->id }}" {{ $status->id == $orderDetail->stock_control_status_id ? 'selected' : '' }}>
                                         {{ $status->name }}

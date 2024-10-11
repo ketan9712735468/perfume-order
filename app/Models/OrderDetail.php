@@ -35,6 +35,12 @@ class OrderDetail extends Model
         'order_number',
     ];
 
+    protected $casts = [
+        'email_date' => 'date',
+        'response_date' => 'date',
+        'paid_date' => 'date',
+        'delivery_date' => 'date',
+    ];
 
     public function branch() {
         return $this->belongsTo(Branch::class);

@@ -25,13 +25,6 @@
                                 @endforeach
                             </select>
 
-                            <select name="employee_id" class="border rounded-md p-2 w-1/4">
-                                <option value="">Select Employee</option>
-                                @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}" {{ request('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
-                                @endforeach
-                            </select>
-
                             <select name="vendor_id" class="border rounded-md p-2 w-1/4">
                                 <option value="">Select Vendor</option>
                                 @foreach ($vendors as $vendor)
@@ -43,13 +36,6 @@
                                 <option value="">Select Type</option>
                                 @foreach ($types as $type)
                                     <option value="{{ $type->id }}" {{ request('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
-                                @endforeach
-                            </select>
-
-                            <select name="tracking_company_id" class="border rounded-md p-2 w-1/4">
-                                <option value="">Select Tracking Company</option>
-                                @foreach ($trackingCompanies as $trackingCompany)
-                                    <option value="{{ $trackingCompany->id }}" {{ request('tracking_company_id') == $trackingCompany->id ? 'selected' : '' }}>{{ $trackingCompany->name }}</option>
                                 @endforeach
                             </select>
 
@@ -128,29 +114,141 @@
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6 text-left">Sr No.</th>
-                                    <th class="py-3 px-6 text-left">Branch</th>
-                                    <th class="py-3 px-6 text-left">Emp. Name</th>
-                                    <th class="py-3 px-6 text-left">Email Date</th>
-                                    <th class="py-3 px-6 text-left">Response Date</th>
-                                    <th class="py-3 px-6 text-left">Vendor Name</th>
-                                    <th class="py-3 px-6 text-left">Type</th>
-                                    <th class="py-3 px-6 text-left">Sales Order</th>
-                                    <th class="py-3 px-6 text-left">Invoice Number</th>
-                                    <th class="py-3 px-6 text-left">Freight</th>
-                                    <th class="py-3 px-6 text-left">Total Amount</th>
-                                    <th class="py-3 px-6 text-left">Paid Date</th>
-                                    <th class="py-3 px-6 text-left">Paid Amount</th>
-                                    <th class="py-3 px-6 text-left">Variants</th>
-                                    <th class="py-3 px-6 text-left">SB</th>
-                                    <th class="py-3 px-6 text-left">RB</th>
-                                    <th class="py-3 px-6 text-left">Units</th>
-                                    <th class="py-3 px-6 text-left">Received</th>
-                                    <th class="py-3 px-6 text-left">Delivery Date</th>
-                                    <th class="py-3 px-6 text-left">Tracking Company</th>
-                                    <th class="py-3 px-6 text-left">Tracking Number</th>
-                                    <th class="py-3 px-6 text-left">Note</th>
-                                    <th class="py-3 px-6 text-left">Stock Control Status</th>
-                                    <th class="py-3 px-6 text-left">Order Number</th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=branch_id&order={{ request('sort_by') == 'branch_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Branch
+                                            @if(request('sort_by') == 'branch_id') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=employee_id&order={{ request('sort_by') == 'employee_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Emp. Name
+                                            @if(request('sort_by') == 'employee_id') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=email_date&order={{ request('sort_by') == 'email_date' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Email Date
+                                            @if(request('sort_by') == 'email_date') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=response_date&order={{ request('sort_by') == 'response_date' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Response Date
+                                            @if(request('sort_by') == 'response_date') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=vendor_id&order={{ request('sort_by') == 'vendor_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Vendor Name
+                                            @if(request('sort_by') == 'vendor_id') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=type_id&order={{ request('sort_by') == 'type_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Type
+                                            @if(request('sort_by') == 'type_id') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=sales_order&order={{ request('sort_by') == 'sales_order' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Sales Order
+                                            @if(request('sort_by') == 'sales_order') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=invoice_number&order={{ request('sort_by') == 'invoice_number' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Invoice Number
+                                            @if(request('sort_by') == 'invoice_number') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=freight&order={{ request('sort_by') == 'freight' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Freight
+                                            @if(request('sort_by') == 'freight') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=total_amount&order={{ request('sort_by') == 'total_amount' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Total Amount
+                                            @if(request('sort_by') == 'total_amount') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=paid_date&order={{ request('sort_by') == 'paid_date' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Paid Date
+                                            @if(request('sort_by') == 'paid_date') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=paid_amount&order={{ request('sort_by') == 'paid_amount' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Paid Amount
+                                            @if(request('sort_by') == 'paid_amount') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=variants&order={{ request('sort_by') == 'variants' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Variants
+                                            @if(request('sort_by') == 'variants') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=sb&order={{ request('sort_by') == 'sb' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            SB
+                                            @if(request('sort_by') == 'sb') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=rb&order={{ request('sort_by') == 'rb' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            RB
+                                            @if(request('sort_by') == 'rb') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=units&order={{ request('sort_by') == 'units' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Units
+                                            @if(request('sort_by') == 'units') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=received&order={{ request('sort_by') == 'received' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Received
+                                            @if(request('sort_by') == 'received') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=delivery_date&order={{ request('sort_by') == 'delivery_date' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Delivery Date
+                                            @if(request('sort_by') == 'delivery_date') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=tracking_company_id&order={{ request('sort_by') == 'tracking_company_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Tracking Company
+                                            @if(request('sort_by') == 'tracking_company_id') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=tracking_number&order={{ request('sort_by') == 'tracking_number' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Tracking Number
+                                            @if(request('sort_by') == 'tracking_number') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        Note
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=stock_control_status_id&order={{ request('sort_by') == 'stock_control_status_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Stock Control Status
+                                            @if(request('sort_by') == 'stock_control_status_id') &#8593; @endif
+                                        </a>
+                                    </th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="?sort_by=order_number&order={{ request('sort_by') == 'order_number' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            Order Number
+                                            @if(request('sort_by') == 'order_number') &#8593; @endif
+                                        </a>
+                                    </th>
                                     <th class="py-4 px-6 align-start text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -158,29 +256,29 @@
                                 @foreach($orderDetails as $orderDetail)
                                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                                         <td class="py-3 px-6 text-left">{{ $loop->iteration }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->branch->name ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->employee->name ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->email_date ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->response_date ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->vendor->name ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->type->name ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->sales_order ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->invoice_number ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->freight ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->total_amount ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->paid_date ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->paid_amount ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->variants ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->sb ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->rb ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->units ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->received ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->delivery_date ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->tracking_company->name ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->tracking_number ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->note ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->stock_control_status->name ?? 'N/A' }}</td>
-                                        <td class="py-3 px-6 text-left">{{ $orderDetail->order_number ?? 'N/A' }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->branch->name }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->employee->name }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->email_date->format('m/d/Y') }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->response_date->format('m/d/Y') }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->vendor->name }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->type->name }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->sales_order }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->invoice_number }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->freight }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->total_amount }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->paid_date->format('m/d/Y') }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->paid_amount }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->variants }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->sb }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->rb }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->units }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->received }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->delivery_date->format('m/d/Y') }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->trackingCompany?->name ?? '' }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->tracking_number }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->note }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->stock_control_status->name ?? '' }}</td>
+                                        <td class="py-3 px-6 text-left">{{ $orderDetail->order_number }}</td>
                                         <td class="py-4 px-6 align-start text-center">
                                             <div class="inline-flex items-center space-x-4">
                                                 <a href="{{ route('order_details.edit', $orderDetail) }}">

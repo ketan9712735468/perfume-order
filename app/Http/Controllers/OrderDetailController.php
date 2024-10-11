@@ -16,19 +16,26 @@ class OrderDetailController extends Controller
 {
     public function index(Request $request)
     {
-        // Fetching all foreign data for filters
+        // Fetch related data for filters
         $branches = Branch::all();
         $employees = Employee::all();
         $vendors = Vendor::all();
         $types = Type::all();
         $trackingCompanies = TrackingCompany::all();
         $stockControlStatuses = StockControlStatus::all();
-    
-        // Fetching order details with filtering logic
-        $orderDetails = OrderDetail::with(['branch', 'employee', 'vendor', 'type', 'trackingCompany', 'stock_control_status'])
-        ->orderBy('created_at', 'desc');
-    
-        // Apply filters if any
+
+        // Fetch order details with relationships
+        $orderDetails = OrderDetail::with(['branch', 'employee', 'vendor', 'type', 'trackingCompany', 'stock_control_status']);
+
+        // Apply sorting if `sort_by` is present in the request
+        if ($request->filled('sort_by') && $request->filled('order')) {
+            $orderDetails->orderBy($request->input('sort_by'), $request->input('order'));
+        } else {
+            // Default sorting if no sorting parameters are provided
+            $orderDetails->orderBy('created_at', 'desc');
+        }
+
+        // Apply filtering logic (same as before)
         if ($request->filled('branch_id')) {
             $orderDetails->where('branch_id', $request->branch_id);
         }
@@ -47,28 +54,29 @@ class OrderDetailController extends Controller
         if ($request->filled('stock_control_status_id')) {
             $orderDetails->where('stock_control_status_id', $request->stock_control_status_id);
         }
-    
+
         // Search functionality
         if ($request->filled('search')) {
             $searchTerm = $request->input('search');
             $orderDetails->where(function ($query) use ($searchTerm) {
                 $query->where('sales_order', 'like', "%{$searchTerm}%")
-                      ->orWhere('invoice_number', 'like', "%{$searchTerm}%")
-                      ->orWhere('freight', 'like', "%{$searchTerm}%")
-                      ->orWhere('total_amount', 'like', "%{$searchTerm}%")
-                      ->orWhere('variants', 'like', "%{$searchTerm}%")
-                      ->orWhere('sb', 'like', "%{$searchTerm}%")
-                      ->orWhere('rb', 'like', "%{$searchTerm}%")
-                      ->orWhere('units', 'like', "%{$searchTerm}%")
-                      ->orWhere('received', 'like', "%{$searchTerm}%")
-                      ->orWhere('note', 'like', "%{$searchTerm}%")
-                      ->orWhere('order_number', 'like', "%{$searchTerm}%");
+                    ->orWhere('invoice_number', 'like', "%{$searchTerm}%")
+                    ->orWhere('freight', 'like', "%{$searchTerm}%")
+                    ->orWhere('total_amount', 'like', "%{$searchTerm}%")
+                    ->orWhere('variants', 'like', "%{$searchTerm}%")
+                    ->orWhere('sb', 'like', "%{$searchTerm}%")
+                    ->orWhere('rb', 'like', "%{$searchTerm}%")
+                    ->orWhere('units', 'like', "%{$searchTerm}%")
+                    ->orWhere('received', 'like', "%{$searchTerm}%")
+                    ->orWhere('tracking_number', 'like', "%{$searchTerm}%")
+                    ->orWhere('note', 'like', "%{$searchTerm}%")
+                    ->orWhere('order_number', 'like', "%{$searchTerm}%");
             });
         }
-    
-        // Execute the query and get the results
-        $orderDetails = $orderDetails->paginate(100); // Use paginate or get based on your needs
-    
+
+        // Paginate the results
+        $orderDetails = $orderDetails->paginate(100);
+
         return view('order_details.index', compact('orderDetails', 'branches', 'employees', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
     }
     
@@ -98,7 +106,7 @@ class OrderDetailController extends Controller
             'type_id' => 'required',
             'sales_order' => 'nullable|string',
             'invoice_number' => 'nullable|string',
-            'freight' => 'required|numeric',
+            'freight' => 'nullable|numeric',
             'total_amount' => 'required|numeric',
             'paid_date' => 'nullable|date',
             'paid_amount' => 'nullable|numeric',
@@ -108,10 +116,10 @@ class OrderDetailController extends Controller
             'units' => 'nullable|integer',
             'received' => 'nullable|integer',
             'delivery_date' => 'nullable|date',
-            'tracking_company_id' => 'required',
+            'tracking_company_id' => 'nullable',
             'tracking_number' => 'nullable|string',
             'note' => 'nullable|string',
-            'stock_control_status_id' => 'required',
+            'stock_control_status_id' => 'nullable',
             'order_number' => 'nullable|string',
         ]);
 
@@ -156,7 +164,7 @@ class OrderDetailController extends Controller
             'type_id' => 'required',
             'sales_order' => 'nullable|string',
             'invoice_number' => 'nullable|string',
-            'freight' => 'required|numeric',
+            'freight' => 'nullable|numeric',
             'total_amount' => 'required|numeric',
             'paid_date' => 'nullable|date',
             'paid_amount' => 'nullable|numeric',
@@ -166,10 +174,10 @@ class OrderDetailController extends Controller
             'units' => 'nullable|integer',
             'received' => 'nullable|integer',
             'delivery_date' => 'nullable|date',
-            'tracking_company_id' => 'required',
+            'tracking_company_id' => 'nullable',
             'tracking_number' => 'nullable|string',
             'note' => 'nullable|string',
-            'stock_control_status_id' => 'required',
+            'stock_control_status_id' => 'nullable',
             'order_number' => 'nullable|string',
         ]);
         try {
