@@ -33,6 +33,9 @@ class OrderDetail extends Model
         'note',
         'stock_control_status_id',
         'order_number',
+        'link',
+        'created_by',
+        'updated_by'
     ];
 
     protected $casts = [

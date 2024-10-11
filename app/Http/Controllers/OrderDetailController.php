@@ -12,6 +12,7 @@ use App\Models\StockControlStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 class OrderDetailController extends Controller
 {
     public function index(Request $request)
@@ -25,7 +26,7 @@ class OrderDetailController extends Controller
         $stockControlStatuses = StockControlStatus::all();
 
         // Fetch order details with relationships
-        $orderDetails = OrderDetail::with(['branch', 'employee', 'vendor', 'type', 'trackingCompany', 'stock_control_status']);
+        $orderDetails = OrderDetail::with(['branch', 'employee', 'vendor', 'type', 'trackingCompany', 'stock_control_status'])->where('current', 0);
 
         // Apply sorting if `sort_by` is present in the request
         if ($request->filled('sort_by') && $request->filled('order')) {
@@ -121,10 +122,14 @@ class OrderDetailController extends Controller
             'note' => 'nullable|string',
             'stock_control_status_id' => 'nullable',
             'order_number' => 'nullable|string',
+            'link' => 'nullable|string',
         ]);
 
         // Create a new OrderDetail instance and fill it with validated data
-        OrderDetail::create($validated);
+        $orderDetail = new OrderDetail($validated);
+        // Set created_by and updated_by to the currently authenticated user
+        $orderDetail->created_by = Auth::id();
+        $orderDetail->save();
 
         // Redirect back with a success message
         return redirect()->route('order_details.index')->with('success', 'Order detail created successfully.');
@@ -179,9 +184,20 @@ class OrderDetailController extends Controller
             'note' => 'nullable|string',
             'stock_control_status_id' => 'nullable',
             'order_number' => 'nullable|string',
+            'link' => 'nullable|string',
         ]);
         try {
-            $orderDetail->update($validated);
+
+            $orderDetail->current = 1; // Set old record to not current
+            $orderDetail->updated_by = Auth::id();
+            $orderDetail->save(); // Save the updated record
+
+            // Create a new record with the same details but marked as current
+            $newOrderDetail = new OrderDetail($validated);
+            $newOrderDetail->current = 0; // New record is current
+            $newOrderDetail->created_by = Auth::id();
+            $newOrderDetail->updated_by = Auth::id();
+            $newOrderDetail->save();
 
             // Redirect with success message
             return redirect()->route('order_details.index')->with('success', 'Order detail updated successfully.');

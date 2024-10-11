@@ -245,6 +245,7 @@
                                             @if(request('sort_by') == 'order_number') &#8593; @endif
                                         </a>
                                     </th>
+                                    <th class="py-3 px-6 text-left">Link</th>
                                     <th class="py-4 px-6 align-start text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -275,6 +276,13 @@
                                         <td class="py-3 px-6 text-left">{{ $orderDetail->note }}</td>
                                         <td class="py-3 px-6 text-left">{{ $orderDetail->stock_control_status->name ?? '' }}</td>
                                         <td class="py-3 px-6 text-left">{{ $orderDetail->order_number }}</td>
+                                        <td class="py-3 px-6 text-left">
+                                            @if($orderDetail->link)
+                                                <a href="{{ $orderDetail->link }}" target="_blank">Click</a>
+                                            @else
+                                                {{ '' }}
+                                            @endif
+                                        </td>
                                         <td class="py-4 px-6 align-start text-center">
                                             <div class="inline-flex items-center space-x-4">
                                                 <a href="{{ route('order_details.edit', $orderDetail) }}">
