@@ -94,7 +94,7 @@
                         <!-- Sales Order -->
                         <div>
                             <label for="sales_order" class="block text-gray-700">Sales Order</label>
-                            <input type="text" id="sales_order" name="sales_order" value="{{ old('sales_order', $orderDetail->sales_order) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <input type="text" id="sales_order" name="sales_order" value="{{ old('sales_order', $orderDetail->sales_order) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                             @error('sales_order')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -103,7 +103,7 @@
                         <!-- Invoice Number -->
                         <div>
                             <label for="invoice_number" class="block text-gray-700">Invoice Number</label>
-                            <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number', $orderDetail->invoice_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number', $orderDetail->invoice_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                             @error('invoice_number')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -112,7 +112,7 @@
                         <!-- Freight -->
                         <div>
                             <label for="freight" class="block text-gray-700">Freight</label>
-                            <input type="number" step="0.01" id="freight" name="freight" value="{{ old('freight', $orderDetail->freight) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <input type="number" step="0.01" id="freight" name="freight" value="{{ old('freight', $orderDetail->freight) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                             @error('freight')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -210,7 +210,7 @@
                         <!-- Tracking Company Dropdown -->
                         <div>
                             <label for="tracking_company_id" class="block text-gray-700">Tracking Company</label>
-                            <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                 <option value="">Select Tracking Company</option>
                                 @foreach($trackingCompanies as $company)
                                     <option value="{{ $company->id }}" {{ old('tracking_company_id', $orderDetail->tracking_company_id) == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
@@ -224,7 +224,7 @@
                         <!-- Tracking Number -->
                         <div>
                             <label for="tracking_number" class="block text-gray-700">Tracking Number</label>
-                            <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number', $orderDetail->tracking_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number', $orderDetail->tracking_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                             @error('tracking_number')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -243,14 +243,14 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                         <!-- Stock Control Status Dropdown -->
                         <div>
-                            <label for="stock_control_status" class="block text-gray-700">Stock Control Status</label>
-                            <select id="stock_control_status" name="stock_control_status" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                            <label for="stock_control_status_id" class="block text-gray-700">Stock Control Status</label>
+                            <select id="stock_control_status_id" name="stock_control_status_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                 <option value="">Select Status</option>
                                 @foreach($stockControlStatuses as $status)
-                                    <option value="{{ $status->id }}" {{ old('stock_control_status', $orderDetail->stock_control_status) == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                                    <option value="{{ $status->id }}" {{ old('stock_control_status_id', $orderDetail->stock_control_status_id) == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
                                 @endforeach
                             </select>
-                            @error('stock_control_status')
+                            @error('stock_control_status_id')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
