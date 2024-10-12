@@ -1,10 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Order Details') }}
             </h2>
-            <a href="{{ route('order_details.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">Create Order Detail</a>
+            <div class="space-x-4">
+                <a href="{{ route('order_details.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
+                    Create Order Detail
+                </a>
+                <button type="button" onclick="openModal('{{ route('order_details.bulk_delete', $orderDetail) }}')" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
+                    Delete Selected
+                </button>
+            </div>
         </div>
     </x-slot>
 
@@ -109,6 +116,9 @@
                         <table class="min-w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-left">
+                                    <input type="checkbox" id="selectAll">
+                                </th>
                                 <th class="py-3 px-6 text-left">Sr No.</th>
                                     <th class="py-3 px-6 text-left">
                                         <a href="?sort_by=branch_id&order={{ request('sort_by') == 'branch_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
@@ -252,6 +262,9 @@
                             <tbody class="text-gray-700 text-sm font-light">
                                 @foreach($orderDetails as $orderDetail)
                                     <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                        <td class="py-3 px-6 text-left">
+                                            <input type="checkbox" name="selected_orders[]" value="{{ $orderDetail->id }}" class="select-row">
+                                        </td>
                                         <td class="py-3 px-6 text-left">{{ $loop->iteration }}</td>
                                         <td class="py-3 px-6 text-left">{{ $orderDetail->branch->name }}</td>
                                         <td class="py-3 px-6 text-left">{{ $orderDetail->employee->name }}</td>
@@ -302,13 +315,36 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 
+<!-- Modal -->
+<div id="deleteModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Confirm Deletion</h2>
+        <p class="text-gray-700 mb-6">Are you sure you want to delete this Order Details?</p>
+        <div class="flex justify-end">
+            <button onclick="closeModal()" class="inline-flex items-center px-4 py-2 mr-4 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">Cancel</button>
+            <form id="deleteForm" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
+    function openModal(deleteUrl) {
+        document.getElementById('deleteForm').action = deleteUrl;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+    
     $(document).ready(function() {
         $('#vendor-select').select2({
             placeholder: 'Select Vendor',

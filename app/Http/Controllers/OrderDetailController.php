@@ -214,5 +214,18 @@ class OrderDetailController extends Controller
         $orderDetail->delete();
         return redirect()->route('order_details.index')->with('success', 'Order Detail deleted successfully.');
     }
+
+    public function bulkDelete(Request $request)
+    {
+        $selectedOrders = $request->input('selected_orders', []);
+
+        if (count($selectedOrders) > 0) {
+            OrderDetail::whereIn('id', $selectedOrders)->delete();
+            return redirect()->back()->with('success', 'Selected orders deleted successfully.');
+        }
+
+        return redirect()->back()->with('error', 'No orders selected for deletion.');
+    }
+
 }
 
