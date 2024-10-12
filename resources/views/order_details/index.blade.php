@@ -8,7 +8,7 @@
                 <a href="{{ route('order_details.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
                     Create Order Detail
                 </a>
-                <button type="button" onclick="openModal('{{ route('order_details.bulk_delete', $orderDetail) }}')" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
+                <button type="button" onclick="confirmDelete()" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md">
                     Delete Selected
                 </button>
             </div>
@@ -111,13 +111,14 @@
                             </div>
                         </div>
                     @endif
-
+                    <form id="bulkDeleteForm" method="POST" action="{{ route('order_details.bulk_delete') }}">
+                    @csrf
                     <div class="overflow-x-auto">
                         <table class="min-w-full table-auto">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6 text-left">
-                                    <input type="checkbox" id="selectAll">
+                                    <input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)">
                                 </th>
                                 <th class="py-3 px-6 text-left">Sr No.</th>
                                     <th class="py-3 px-6 text-left">
@@ -315,6 +316,7 @@
                             </tbody>
                         </table>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -363,5 +365,17 @@
             allowClear: true
         });
     });
+
+    function toggleSelectAll(source) {
+        const checkboxes = document.querySelectorAll('input[name="selected_orders[]"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = source.checked;
+        });
+    }
+
+    function confirmDelete() {
+        const checkboxes = document.querySelectorAll('input[name="selected_orders[]"]:checked');
+            document.getElementById('bulkDeleteForm').submit();
+    }
 </script>
 </x-app-layout>

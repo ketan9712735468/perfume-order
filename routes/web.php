@@ -30,4 +30,4 @@ Route::resource('types', TypeController::class);
 Route::resource('tracking_companies', TrackingCompanyController::class);
 Route::resource('stock_control_statuses', StockControlStatusController::class);
 Route::resource('order_details', OrderDetailController::class);
-Route::delete('/order-details/bulk-delete', [OrderDetailController::class, 'bulkDelete'])->name('order_details.bulk_delete');
+Route::post('/order-details/bulk-delete', [OrderDetailController::class, 'bulkDelete'])->name('order_details.bulk_delete');

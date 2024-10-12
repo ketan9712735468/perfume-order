@@ -220,7 +220,8 @@ class OrderDetailController extends Controller
         $selectedOrders = $request->input('selected_orders', []);
 
         if (count($selectedOrders) > 0) {
-            OrderDetail::whereIn('id', $selectedOrders)->delete();
+            $updatedRows = OrderDetail::whereIn('id', $selectedOrders)->update(['current' => 1]);
+            
             return redirect()->back()->with('success', 'Selected orders deleted successfully.');
         }
 
