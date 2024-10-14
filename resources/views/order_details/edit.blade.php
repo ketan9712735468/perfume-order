@@ -254,19 +254,19 @@
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                        <!-- Link -->
+                        <div>
+                            <label for="link" class="block text-gray-700">Link</label>
+                            <input type="text" id="link" name="link" value="{{ old('link', $orderDetail->link) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                            @error('link')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
                         <!-- Note -->
                         <div>
                             <label for="note" class="block text-gray-700">Note</label>
                             <textarea id="note" name="note" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ old('note', $orderDetail->note) }}</textarea>
                             @error('note')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <!-- Link -->
-                        <div>
-                            <label for="link" class="block text-gray-700">Order Number</label>
-                            <input type="text" id="link" name="link" value="{{ old('link', $orderDetail->link) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                            @error('link')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>

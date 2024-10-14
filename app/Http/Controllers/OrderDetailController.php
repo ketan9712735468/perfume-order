@@ -56,6 +56,11 @@ class OrderDetailController extends Controller
             $orderDetails->whereIn('stock_control_status_id', $request->stock_control_status_id);
         }
 
+        // Date range filter for `email_date`
+        if ($request->filled('email_date_start') && $request->filled('email_date_end')) {
+            $orderDetails->whereBetween('email_date', [$request->email_date_start, $request->email_date_end]);
+        }
+
         // Search functionality
         if ($request->filled('search')) {
             $searchTerm = $request->input('search');
