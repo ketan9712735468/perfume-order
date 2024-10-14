@@ -23,7 +23,7 @@
                     <!-- Filter Form -->
                     <form method="GET" class="mb-4">
                         <div class="flex items-center justify-center space-x-4">
-                            <input type="text" name="search" placeholder="Search..." class="border rounded-md p-2 w-1/4" value="{{ request('search') }}">
+                            <input type="text" name="search" placeholder="Search..." class="border rounded-md p-2 w-1/1" value="{{ request('search') }}">
 
                             <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="branch_id[]" multiple="multiple" id="branch-select">
                                 @foreach ($branches as $branch)
@@ -54,6 +54,7 @@
                             <input type="date" name="email_date_end" class="border rounded-md p-2" value="{{ request('email_date_end') }}" placeholder="End Date">
 
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">{{ __('Filter') }}</button>
+                            <a href="{{ route('order_details.index') }}" class="inline-flex items-center px-2 py-1 bg-gray-800 border border-transparent rounded font-semibold text-xs text-white uppercase tracking-wide hover:bg-gray-800 focus:bg-gray-800 active:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">{{ __('Clear Filters') }}</a>
                         </div>
                     </form>
 
@@ -391,5 +392,29 @@
         const checkboxes = document.querySelectorAll('input[name="selected_orders[]"]:checked');
             document.getElementById('bulkDeleteForm').submit();
     }
+
+    const startDateInput = document.getElementById('email-date-start');
+    const endDateInput = document.getElementById('email-date-end');
+    const startDateLabel = document.querySelector('label[for="email-date-start"]');
+    const endDateLabel = document.querySelector('label[for="email-date-end"]');
+
+    // Check input value and show or hide label accordingly
+    startDateInput.addEventListener('focus', () => {
+        startDateLabel.classList.add('hidden');
+    });
+    startDateInput.addEventListener('blur', () => {
+        if (!startDateInput.value) startDateLabel.classList.remove('hidden');
+    });
+
+    endDateInput.addEventListener('focus', () => {
+        endDateLabel.classList.add('hidden');
+    });
+    endDateInput.addEventListener('blur', () => {
+        if (!endDateInput.value) endDateLabel.classList.remove('hidden');
+    });
+
+    // Initial check for inputs with values on page load
+    if (startDateInput.value) startDateLabel.classList.add('hidden');
+    if (endDateInput.value) endDateLabel.classList.add('hidden');
 </script>
 </x-app-layout>

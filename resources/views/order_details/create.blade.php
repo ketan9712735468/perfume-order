@@ -5,6 +5,24 @@
         </h2>
     </x-slot>
 
+    <style>
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #d1d5db !important;
+            border-radius: .375rem !important;
+            line-height: 1.5rem !important;
+            height: 42px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered{
+            height: 100% !important;
+            display: flex !important;
+        align-items: center;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100% !important;
+        }
+    </style>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
