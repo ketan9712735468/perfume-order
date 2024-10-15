@@ -122,8 +122,9 @@
             </a>
         @elseif(request()->is('perfume-service*'))
             <!-- Perfume service Sidebar Menu -->
-            <li><a href="/perfume-service/project">Project</a></li>
-            <li><a href="/perfume-service/file">File</a></li>
+            <a href="/perfume-service/projects" class="{{ request()->is('perfume-service/projects*') ? 'active' : '' }}">
+            <i class="fa-solid fa-sheet-plastic"></i><span>Project</span>
+            </a>
         @else
             <!-- Default Sidebar Menu -->
             <a href="/dashboard" class="{{ request()->is('dashboard') ? 'active' : '' }}">

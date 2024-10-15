@@ -13,7 +13,7 @@
                     <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
                         <h3 class="text-lg font-semibold mb-4">Perfume Service</h3>
                         <p class="text-gray-600 mb-4">Manage all perfume services here.</p>
-                        <button onclick="window.location.href='/perfume-service'" 
+                        <button onclick="window.location.href='/perfume-service/projects'" 
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Go to Perfume Service
                         </button>
