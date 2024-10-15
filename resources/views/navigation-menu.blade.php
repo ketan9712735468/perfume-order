@@ -1,41 +1,147 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('order_details.index') }}">
-                        <x-application-mark class="block h-9 w-auto" />
-                    </a>
-                </div>
+<style>
+        :root {
+            --primary-color: #4a90e2;
+            --bg-color: #f4f7fa;
+            --text-color: #333;
+            --sidebar-bg: #ffffff;
+            --sidebar-hover: #e6f0ff;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: var(--sidebar-bg);
+            overflow-x: hidden;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .sidebar-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .toggle-btn:hover {
+            color: var(--primary-color);
+        }
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 16px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .sidebar a.active {
+            background-color: var(--sidebar-hover);
+            color: var(--primary-color);
+        }
+        .sidebar a:hover {
+            background-color: var(--sidebar-hover);
+            color: var(--primary-color);
+        }
+        .sidebar a i {
+            min-width: 30px;
+            font-size: 20px;
+        }
+        #main {
+            transition: margin-left .3s;
+            padding: 20px;
+            margin-left: 250px;
+        }
+        .sidebar.closed {
+            width: 70px;
+        }
+        .sidebar.closed .sidebar-header h3 {
+            display: none;
+        }
+        .sidebar.closed a span {
+            display: none;
+        }
+        .sidebar.closed ~ #main {
+            margin-left: 70px;
+        }
+</style>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="/order_details" :active="request()->routeIs('order_details.index')">
-                        {{ __('Order Details') }}
-                    </x-nav-link>
-                    <x-nav-link href="/branches" :active="request()->routeIs('branches.index')">
-                        {{ __('Branch') }}
-                    </x-nav-link>
-                    <x-nav-link href="/employees" :active="request()->routeIs('employees.index')">
-                        {{ __('Employee') }}
-                    </x-nav-link>
-                    <x-nav-link href="/vendors" :active="request()->routeIs('vendors.index')">
-                        {{ __('Vendor') }}
-                    </x-nav-link>
-                    <x-nav-link href="/types" :active="request()->routeIs('types.index')">
-                        {{ __('Type') }}
-                    </x-nav-link>
-                    <x-nav-link href="/tracking_companies" :active="request()->routeIs('tracking_companies.index')">
-                        {{ __('TrackingCompany') }}
-                    </x-nav-link>
-                    <x-nav-link href="/stock_control_statuses" :active="request()->routeIs('stock_control_statuses.index')">
-                        {{ __('StockControlStatus') }}
-                    </x-nav-link>
-                </div>
-            </div>
+<div>
+    <!-- Sidebar Section -->
+    <div id="mySidebar" class="sidebar" role="navigation">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="toggle-btn" aria-expanded="false" onclick="toggleNav()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        @if(request()->is('perfume-order*'))
+            <a href="/perfume-order/order_details" class="{{ request()->is('perfume-order/order_details*') ? 'active' : '' }}">
+                <i class="fas fa-home"></i> <span>OrderDetail</span>
+            </a>
+            <a href="/perfume-order/branches" class="{{ request()->is('perfume-order/branches*') ? 'active' : '' }}">
+                <i class="fa-solid fa-table"></i> <span>Branch</span>
+            </a>
+            <a href="/perfume-order/employees" class="{{ request()->is('perfume-order/employees*') ? 'active' : '' }}">
+                <i class="fa-solid fa-table"></i> <span>Employee</span>
+            </a>
+            <a href="/perfume-order/vendors" class="{{ request()->is('perfume-order/vendors*') ? 'active' : '' }}">
+                <i class="fa-solid fa-table"></i> <span>Vendor</span>
+            </a>
+            <a href="/perfume-order/types" class="{{ request()->is('perfume-order/types*') ? 'active' : '' }}">
+                <i class="fa-solid fa-table"></i> <span>Type</span>
+            </a>
+            <a href="/perfume-order/tracking_companies" class="{{ request()->is('perfume-order/tracking_companies*') ? 'active' : '' }}">
+                <i class="fa-solid fa-table"></i> <span>TrackingCompany</span>
+            </a>
+            <a href="/perfume-order/stock_control_statuses" class="{{ request()->is('perfume-order/stock_control_statuses*') ? 'active' : '' }}">
+                <i class="fa-solid fa-table"></i> <span>StockControlStatus</span>
+            </a>
+        @elseif(request()->is('perfume-service*'))
+            <!-- Perfume service Sidebar Menu -->
+            <li><a href="/perfume-service/project">Project</a></li>
+            <li><a href="/perfume-service/file">File</a></li>
+        @else
+            <!-- Default Sidebar Menu -->
+            <a href="/dashboard" class="{{ request()->is('dashboard') ? 'active' : '' }}">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+            </a>
+        @endif
+    </div>
 
+
+    <!-- Main Content Section -->
+    <div id="main">
+        <!-- Top Header Section -->
+        <div class="flex justify-between items-center bg-white shadow p-4">
+            <a href="{{ route('dashboard') }}">
+                <x-application-mark class="block h-9 w-auto" />
+            </a>
+
+            <!-- Teams and Settings Section -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
@@ -141,97 +247,17 @@
                     </x-dropdown>
                 </div>
             </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
         </div>
     </div>
+</div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="flex items-center px-4">
-                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <div class="shrink-0 me-3">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                    </div>
-                @endif
-
-                <div>
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                </div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <!-- Account Management -->
-                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                    <x-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
-                        {{ __('API Tokens') }}
-                    </x-responsive-nav-link>
-                @endif
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}" x-data>
-                    @csrf
-
-                    <x-responsive-nav-link href="{{ route('logout') }}"
-                                   @click.prevent="$root.submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-
-                <!-- Team Management -->
-                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                    <div class="border-t border-gray-200"></div>
-
-                    <div class="block px-4 py-2 text-xs text-gray-400">
-                        {{ __('Manage Team') }}
-                    </div>
-
-                    <!-- Team Settings -->
-                    <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
-                        {{ __('Team Settings') }}
-                    </x-responsive-nav-link>
-
-                    @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                        <x-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
-                            {{ __('Create New Team') }}
-                        </x-responsive-nav-link>
-                    @endcan
-
-                    <!-- Team Switcher -->
-                    @if (Auth::user()->allTeams()->count() > 1)
-                        <div class="border-t border-gray-200"></div>
-
-                        <div class="block px-4 py-2 text-xs text-gray-400">
-                            {{ __('Switch Teams') }}
-                        </div>
-
-                        @foreach (Auth::user()->allTeams() as $team)
-                            <x-switchable-team :team="$team" component="responsive-nav-link" />
-                        @endforeach
-                    @endif
-                @endif
-            </div>
-        </div>
-    </div>
-</nav>
+<!-- Toggle Sidebar Script -->
+<script>
+    function toggleNav() {
+        const sidebar = document.getElementById("mySidebar");
+        sidebar.classList.toggle("closed");
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle("open");
+        }
+    }
+</script>

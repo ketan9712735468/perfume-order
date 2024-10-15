@@ -23,11 +23,14 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::resource('branches', BranchController::class);
-Route::resource('employees', EmployeeController::class);
-Route::resource('vendors', VendorController::class);
-Route::resource('types', TypeController::class);
-Route::resource('tracking_companies', TrackingCompanyController::class);
-Route::resource('stock_control_statuses', StockControlStatusController::class);
-Route::resource('order_details', OrderDetailController::class);
-Route::post('/order-details/bulk-delete', [OrderDetailController::class, 'bulkDelete'])->name('order_details.bulk_delete');
+Route::prefix('perfume-order')->group(function () {
+    Route::resource('branches', BranchController::class);
+    Route::resource('employees', EmployeeController::class);
+    Route::resource('vendors', VendorController::class);
+    Route::resource('types', TypeController::class);
+    Route::resource('tracking_companies', TrackingCompanyController::class);
+    Route::resource('stock_control_statuses', StockControlStatusController::class);
+    Route::resource('order_details', OrderDetailController::class);
+    Route::post('/order-details/bulk-delete', [OrderDetailController::class, 'bulkDelete'])
+        ->name('order_details.bulk_delete');
+});
