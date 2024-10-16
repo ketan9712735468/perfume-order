@@ -27,7 +27,11 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::prefix('perfume-order')->group(function () {
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->prefix('perfume-order')->group(function () {
     Route::resource('branches', BranchController::class);
     Route::resource('employees', EmployeeController::class);
     Route::resource('vendors', VendorController::class);
@@ -40,7 +44,12 @@ Route::prefix('perfume-order')->group(function () {
 });
 
 
-Route::prefix('perfume-service')->group(function () {
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->prefix('perfume-service')->group(function () {
     Route::resource('projects', ProjectController::class);
     Route::resource('projects.files', ProjectFileController::class)->shallow();
     Route::resource('projects.inventory', ProjectInventoryController::class)->shallow();

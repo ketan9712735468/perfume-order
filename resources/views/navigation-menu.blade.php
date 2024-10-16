@@ -123,7 +123,7 @@
         @elseif(request()->is('perfume-service*'))
             <!-- Perfume service Sidebar Menu -->
             <a href="/perfume-service/projects" class="{{ request()->is('perfume-service/projects*') ? 'active' : '' }}">
-            <i class="fa-solid fa-sheet-plastic"></i><span>Project</span>
+                <i class="fa-solid fa-sheet-plastic"></i><span>Project</span>
             </a>
         @else
             <!-- Default Sidebar Menu -->
@@ -132,7 +132,6 @@
             </a>
         @endif
     </div>
-
 
     <!-- Main Content Section -->
     <div id="main">
@@ -249,16 +248,27 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
 <!-- Toggle Sidebar Script -->
 <script>
+    // Function to toggle the sidebar
     function toggleNav() {
         const sidebar = document.getElementById("mySidebar");
         sidebar.classList.toggle("closed");
-        if (window.innerWidth <= 768) {
-            sidebar.classList.toggle("open");
-        }
+
+        // Save the sidebar state in localStorage
+        const isClosed = sidebar.classList.contains("closed");
+        localStorage.setItem("sidebarClosed", isClosed);
     }
+
+    // On page load, always close the sidebar
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.getElementById("mySidebar");
+        
+        // Always close the sidebar on page load
+        sidebar.classList.add("closed");
+
+        // Optionally, you can also remove the stored state if needed
+        localStorage.removeItem("sidebarClosed");
+    });
 </script>
+
