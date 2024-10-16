@@ -13,12 +13,25 @@
                 </button>
             </div>
         </div>
-    </x-slot>
+    </x-slot>    
 
     <div class="overflow-hidden mt-6">
         <div class="mx-auto px-4">
             <div class="bg-white shadow-xl rounded-lg">
                 <div class="p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                            {{ __('Order Details') }}
+                        </h2>
+                        <div class="space-x-4">
+                            <a href="{{ route('order_details.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
+                                Create Order Detail
+                            </a>
+                            <button type="button" onclick="confirmDelete()" class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
+                                Delete Selected
+                            </button>
+                        </div>
+                    </div>
 
                     <!-- Filter Form -->
                     <form method="GET" class="mb-4">
