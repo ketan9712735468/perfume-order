@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Order Details') }}
-        </h2>
-    </x-slot>
 
     <style>
         .select2-container--default .select2-selection--single {
