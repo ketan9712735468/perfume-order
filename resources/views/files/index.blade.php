@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="container mx-auto px-4">
+<div class="container mx-auto px-4 mt-20">
     <h1 class="text-3xl font-semibold mb-6">Files for {{ $project->name }}</h1>
     <a href="{{ route('projects.files.create', $project) }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Upload File</a>
     <div class="bg-white shadow-md rounded-lg overflow-hidden">

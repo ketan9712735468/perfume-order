@@ -1,6 +1,6 @@
 <x-app-layout>
 
-<div class="flex-grow p-6 ml-64">
+<div class="flex-grow p-6 ml-64 mt-20">
     <div class="overflow-hidden mt-6">
         <div class="mx-auto px-4">
             <div class="bg-white shadow-xl rounded-lg">

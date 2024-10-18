@@ -92,13 +92,13 @@
 
 <div>
     <!-- Top Header Section -->
-    <div class="w-full bg-white shadow p-4 flex justify-between items-center">
+    <div class="w-full bg-white shadow p-4 flex justify-between items-center fixed top-0">
         <a href="{{ route('dashboard') }}">
             <x-application-mark class="block h-9 w-auto" />
         </a>
 
         <!-- Centered Buttons Wrapper -->
-        <div class="flex-grow flex justify-center">
+        <div class="ml-64">
             <div class="flex space-x-4">
                 <button onclick="window.location.href='/perfume-service/projects'" 
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
