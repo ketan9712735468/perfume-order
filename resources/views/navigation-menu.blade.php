@@ -27,7 +27,7 @@
             white-space: nowrap;
         }
         .sidebar-header {
-            padding: 20px;
+            padding: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -50,7 +50,7 @@
             color: var(--primary-color);
         }
         .sidebar a {
-            padding: 15px 25px;
+            padding: 15px 10px;
             text-decoration: none;
             font-size: 16px;
             color: var(--text-color);
@@ -262,4 +262,14 @@
             </a>
         @endif
     </div>
+
+    <script>
+    function toggleNav() {
+        const sidebar = document.getElementById("mySidebar");
+        sidebar.classList.toggle("closed");
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle("open");
+        }
+    }
+</script>
 </div>
