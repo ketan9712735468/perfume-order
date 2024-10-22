@@ -1,11 +1,11 @@
 <x-app-layout>
 
     <div class="flex-grow ml-64 mt-24 main_layout">
-        <div class="overflow-hidden mt-6">
-            <div class="mx-auto px-1">
-                <div class="bg-white shadow-xl rounded-lg">
-                    <div class="p-4">
-                        <div class="flex justify-between items-center mb-4">
+        <div class="max-w-7xl ml-1">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="py-12">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div class="flex justify-between">
                             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                                 {{ __('Projects') }}
                             </h2>

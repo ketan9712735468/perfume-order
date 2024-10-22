@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <div class="flex-grow ml-64 mt-24 main_layout">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl ml-1">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

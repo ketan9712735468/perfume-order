@@ -18,7 +18,7 @@
 
 
     <div class="flex-grow ml-64 mt-24 main_layout">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl ml-1">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -81,7 +81,7 @@
 
                                 <!-- Display error messages -->
                                 @if(session('error'))
-                                <div class="fixed top-4 right-4 max-w-sm w-full bg-red-100 border border-red-400 text-red-700 p-4 mb-4 rounded-md shadow-lg transition-opacity duration-300 ease-in-out opacity-100" role="alert">
+                                <div class="fixed top-4 right-4 max-w-sm w-full bg-red-100 border border-red-400 text-red-700 p-4 mb-4 rounded-md shadow-lg z-50 transition-opacity duration-300 ease-in-out opacity-100" role="alert">
                                     <div class="flex items-start">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-red-600">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3a1.5 1.5 0 1 1 3 0v12a1.5 1.5 0 1 1-3 0V3zm-1.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z" />
@@ -100,7 +100,7 @@
 
                                 <!-- Display success messages -->
                                 @if(session('success'))
-                                <div class="fixed top-4 right-4 max-w-sm w-full bg-green-100 border border-green-400 text-green-700 p-4 mb-4 rounded-md shadow-lg transition-opacity duration-300 ease-in-out opacity-100" role="alert">
+                                <div class="fixed top-4 right-4 max-w-sm w-full bg-green-100 border border-green-400 text-green-700 p-4 mb-4 rounded-md shadow-lg z-50 transition-opacity duration-300 ease-in-out opacity-100" role="alert">
                                     <div class="flex items-start">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-green-600">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 4.5l-11.25 11.25-4.5-4.5m-1.5-1.5l6-6L20.25 4.5z" />
@@ -591,7 +591,7 @@
     function showCustomAlert(message) {
         // Create the alert container
         const alertBox = document.createElement('div');
-        alertBox.className = "fixed top-4 right-4 max-w-sm w-full bg-red-100 border border-red-400 text-red-700 p-4 mb-4 rounded-md shadow-lg transition-opacity duration-300 ease-in-out opacity-100";
+        alertBox.className = "fixed top-4 right-4 max-w-sm w-full bg-red-100 border border-red-400 text-red-700 p-4 mb-4 rounded-md shadow-lg z-50 transition-opacity duration-300 ease-in-out opacity-100";
         alertBox.setAttribute('role', 'alert');
 
         // Alert content

@@ -8,6 +8,7 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                             {{ __('Orders') }}
+                            {{ session('error') }}
                         </h2>
                         <div class="space-x-4">
                             <a href="{{ route('order_details.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
@@ -21,27 +22,27 @@
                     <!-- Filter Form -->
                     <form method="GET" class="mb-4">
                         <div class="flex items-center justify-center space-x-4">
-                            <input type="text" name="search" placeholder="Search..." class="border rounded-md p-2 w-1/1" value="{{ request('search') }}">
+                            <input type="text" name="search" placeholder="Search..." class="border rounded-md p-2 w-32" value="{{ request('search') }}">
 
-                            <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="branch_id[]" multiple="multiple" id="branch-select">
+                            <select class="js-example-basic-multiple border rounded-md w-1/4" name="branch_id[]" multiple="multiple" id="branch-select">
                                 @foreach ($branches as $branch)
                                     <option value="{{ $branch->id }}" {{ is_array(request('branch_id')) && in_array($branch->id, request('branch_id')) ? 'selected' : '' }}>{{ $branch->name }}</option>
                                 @endforeach
                             </select>
 
-                            <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="vendor_id[]" multiple="multiple" id="vendor-select">
+                            <select class="js-example-basic-multiple border rounded-md w-1/4" name="vendor_id[]" multiple="multiple" id="vendor-select">
                                 @foreach ($vendors as $vendor)
                                     <option value="{{ $vendor->id }}" {{ is_array(request('vendor_id')) && in_array($vendor->id, request('vendor_id')) ? 'selected' : '' }}>{{ $vendor->name }}</option>
                                 @endforeach
                             </select>
 
-                            <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="type_id[]" multiple="multiple" id="type-select">
+                            <select class="js-example-basic-multiple border rounded-md w-1/4" name="type_id[]" multiple="multiple" id="type-select">
                                 @foreach ($types as $type)
                                     <option value="{{ $type->id }}" {{ is_array(request('type_id')) && in_array($type->id, request('type_id')) ? 'selected' : '' }}>{{ $type->name }}</option>
                                 @endforeach
                             </select>
 
-                            <select class="js-example-basic-multiple border rounded-md p-2 w-1/4" name="stock_control_status_id[]" multiple="multiple" id="stock-control-status-select">
+                            <select class="js-example-basic-multiple border rounded-md w-1/4" name="stock_control_status_id[]" multiple="multiple" id="stock-control-status-select">
                                 @foreach ($stockControlStatuses as $status)
                                     <option value="{{ $status->id }}" {{ is_array(request('stock_control_status_id')) && in_array($status->id, request('stock_control_status_id')) ? 'selected' : '' }}>{{ $status->name }}</option>
                                 @endforeach
@@ -57,7 +58,7 @@
                     </form>
 
                     @if(session('success'))
-                        <div class="fixed top-4 right-4 max-w-sm w-full bg-green-100 border border-green-400 text-green-700 p-4 mb-4 rounded-md shadow-lg transition-opacity duration-300 ease-in-out opacity-100" role="alert">
+                        <div class="fixed top-4 right-4 max-w-sm w-full bg-green-100 border border-green-400 text-green-700 p-4 mb-4 rounded-md shadow-lg z-50 transition-opacity duration-300 ease-in-out opacity-100" role="alert">
                             <div class="flex items-start">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-green-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 4.5l-11.25 11.25-4.5-4.5m-1.5-1.5l6-6L20.25 4.5z" />
@@ -75,36 +76,13 @@
                     @endif
 
                     @if(session('error'))
-                        <div class="fixed top-4 right-4 max-w-sm w-full bg-red-100 border border-red-400 text-red-700 p-4 mb-4 rounded-md shadow-lg transition-opacity duration-300 ease-in-out opacity-100" role="alert">
+                        <div class="fixed top-4 right-4 max-w-sm w-full bg-red-100 border border-red-400 text-red-700 p-4 mb-4 rounded-md shadow-lg z-50 transition-opacity duration-300 ease-in-out opacity-100" role="alert">
                             <div class="flex items-start">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-red-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3a1.5 1.5 0 1 1 3 0v12a1.5 1.5 0 1 1-3 0V3zm-1.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z" />
                                 </svg>
                                 <div class="flex-1">
                                     <p class="text-sm">{{ session('error') }}</p>
-                                </div>
-                                <button type="button" class="ml-3 text-red-600 hover:text-red-800" onclick="this.parentElement.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.parentElement.remove(), 300);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if($errors->any())
-                        <div class="fixed top-4 right-4 max-w-sm w-full bg-red-100 border border-red-400 text-red-700 p-4 mb-4 rounded-md shadow-lg transition-opacity duration-300 ease-in-out opacity-100" role="alert">
-                            <div class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-red-600">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3a1.5 1.5 0 1 1 3 0v12a1.5 1.5 0 1 1-3 0V3zm-1.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z" />
-                                </svg>
-                                <div class="flex-1">
-                                    <p class="text-sm">Please fix the following errors:</p>
-                                    <ul class="mt-2 list-disc list-inside">
-                                        @foreach($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
                                 </div>
                                 <button type="button" class="ml-3 text-red-600 hover:text-red-800" onclick="this.parentElement.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.parentElement.remove(), 300);">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -365,19 +343,19 @@
     
     $(document).ready(function() {
         $('#vendor-select').select2({
-            placeholder: 'Select Vendor',
+            placeholder: 'Vendor',
             allowClear: true
         });
         $('#branch-select').select2({
-            placeholder: 'Select Branch',
+            placeholder: 'Location',
             allowClear: true
         });
         $('#type-select').select2({
-            placeholder: 'Select Type',
+            placeholder: 'Sale Type',
             allowClear: true
         });
         $('#stock-control-status-select').select2({
-            placeholder: 'Select Stock Control Status',
+            placeholder: 'Stock Control Status',
             allowClear: true
         });
     });

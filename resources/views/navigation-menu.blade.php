@@ -91,7 +91,7 @@
 
 
     <!-- Top Header Section -->
-    <div class="w-full bg-white shadow p-4 flex justify-between items-center fixed top-0">
+    <div class="w-full bg-white shadow p-4 flex justify-between items-center fixed top-0 z-10">
         <x-application-mark class="block h-14 w-48" />
 
         <!-- Perfume Service, Perfume Order, and Settings Section -->
