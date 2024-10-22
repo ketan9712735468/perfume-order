@@ -41,7 +41,7 @@
             <!-- Page Content -->
             <main>
                  <!-- Sidebar Section -->
-                <div id="mySidebar" class="sidebar w-64 bg-white text-white p-4" role="navigation">
+                <div id="mySidebar" class="sidebar w-64 bg-white shadow p-4" role="navigation">
                     <div class="sidebar-header flex justify-between items-center">
                         <h3>Menu</h3>
                         <button class="toggle-btn" aria-expanded="false" onclick="toggleNav()">
