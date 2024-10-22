@@ -40,6 +40,47 @@
             @livewire('navigation-menu')
             <!-- Page Content -->
             <main>
+                 <!-- Sidebar Section -->
+                <div id="mySidebar" class="sidebar w-64 bg-white text-white p-4" role="navigation">
+                    <div class="sidebar-header flex justify-between items-center">
+                        <h3>Menu</h3>
+                        <button class="toggle-btn" aria-expanded="false" onclick="toggleNav()">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+
+                    @if(request()->is('perfume-order*'))
+                        <a href="/perfume-order/order_details" class="{{ request()->is('perfume-order/order_details*') ? 'active' : '' }}">
+                            <i class="fas fa-home"></i> <span>Orders</span>
+                        </a>
+                        <a href="/perfume-order/branches" class="{{ request()->is('perfume-order/branches*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-code-branch"></i> <span>Locations</span>
+                        </a>
+                        <a href="/perfume-order/employees" class="{{ request()->is('perfume-order/employees*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-user"></i> <span>Employees</span>
+                        </a>
+                        <a href="/perfume-order/vendors" class="{{ request()->is('perfume-order/vendors*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-table"></i> <span>Vendors</span>
+                        </a>
+                        <a href="/perfume-order/types" class="{{ request()->is('perfume-order/types*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-universal-access"></i> <span>Sales Type</span>
+                        </a>
+                        <a href="/perfume-order/tracking_companies" class="{{ request()->is('perfume-order/tracking_companies*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-building"></i> <span>Trucking Company</span>
+                        </a>
+                        <a href="/perfume-order/stock_control_statuses" class="{{ request()->is('perfume-order/stock_control_statuses*') ? 'active' : '' }}">
+                            <i class="fa-regular fa-chart-bar"></i> <span>Stock Control Status</span>
+                        </a>
+                    @elseif(request()->is('perfume-service*'))
+                        <a href="/perfume-service/projects" class="{{ request()->is('perfume-service/projects*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-sheet-plastic"></i> <span>Projects</span>
+                        </a>
+                    @else
+                        <a href="/dashboard" class="{{ request()->is('dashboard') ? 'active' : '' }}">
+                            <i class="fas fa-home"></i> <span>Dashboard</span>
+                        </a>
+                    @endif
+                </div>
                 {{ $slot }}
             </main>
         </div>
@@ -47,5 +88,29 @@
         @stack('modals')
 
         @livewireScripts
+        <script>
+            function toggleNav() {
+                const sidebar = document.getElementById("mySidebar");
+                sidebar.classList.toggle("closed");
+
+                const main_layouts = document.getElementsByClassName("main_layout");
+                if(sidebar.classList.contains('closed')){
+                    for (let i = 0; i < main_layouts.length; i++) {
+                        main_layouts[i].classList.remove("ml-64");
+                        main_layouts[i].classList.add("ml-20");
+                    }
+
+                }else{
+                    for (let i = 0; i < main_layouts.length; i++) {
+                        main_layouts[i].classList.remove("ml-20");
+                        main_layouts[i].classList.add("ml-64");
+                    }
+                }
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.toggle("open");
+                    alert(1)
+                }
+            }
+        </script>
     </body>
 </html>

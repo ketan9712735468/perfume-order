@@ -189,7 +189,7 @@
                                                             <span>{{ $file->created_at }}</span>
                                                         </td>
                                                         <td class="py-4 px-6">
-                                                            <form id="toggle-enabled-form-{{ $file->id }}" action="/files/toggle-enabled" method="POST">
+                                                            <form id="toggle-enabled-form-{{ $file->id }}" action="/perfume-service/files/toggle-enabled" method="POST">
                                                                 @csrf
                                                                 <input type="hidden" name="file_id" value="{{ $file->id }}">
                                                                 <input type="hidden" name="enabled" value="0">
