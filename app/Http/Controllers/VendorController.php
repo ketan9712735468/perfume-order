@@ -20,7 +20,9 @@ class VendorController extends Controller
 
     public function store(Request $request)
     {
-        $vendor = Vendor::create($request->all());
+        $vendorData = $request->all();
+        $vendorData['enabled'] = $request->has('enabled') ? true : false;
+        $vendor = Vendor::create($vendorData);
         return redirect()->route('vendors.index');
     }
 
@@ -31,7 +33,9 @@ class VendorController extends Controller
 
     public function update(Request $request, Vendor $vendor)
     {
-        $vendor->update($request->all());
+        $vendorData = $request->all();
+        $vendorData['enabled'] = $request->has('enabled') ? true : false;
+        $vendor->update($vendorData);
         return redirect()->route('vendors.index');
     }
 

@@ -20,7 +20,11 @@ class BranchController extends Controller
 
     public function store(Request $request)
     {
-        $branch = Branch::create($request->all());
+        $branchData = $request->all();
+        $branchData['enabled'] = $request->has('enabled') ? true : false;
+
+        $branch = Branch::create($branchData);
+
         return redirect()->route('branches.index');
     }
 
@@ -31,7 +35,11 @@ class BranchController extends Controller
 
     public function update(Request $request, Branch $branch)
     {
-        $branch->update($request->all());
+        $branchData = $request->all();
+        $branchData['enabled'] = $request->has('enabled') ? true : false;
+
+        $branch->update($branchData);
+
         return redirect()->route('branches.index');
     }
 

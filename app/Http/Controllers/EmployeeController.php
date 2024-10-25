@@ -20,7 +20,11 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        $employee = Employee::create($request->all());
+        $employeeData = $request->all();
+        $employeeData['enabled'] = $request->has('enabled') ? true : false;
+
+        $employee = Employee::create($employeeData);
+
         return redirect()->route('employees.index');
     }
 
@@ -31,7 +35,11 @@ class EmployeeController extends Controller
 
     public function update(Request $request, Employee $employee)
     {
-        $employee->update($request->all());
+        $employeeData = $request->all();
+        $employeeData['enabled'] = $request->has('enabled') ? true : false;
+
+        $employee->update($employeeData);
+
         return redirect()->route('employees.index');
     }
 

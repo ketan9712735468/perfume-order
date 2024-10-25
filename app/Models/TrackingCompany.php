@@ -9,5 +9,5 @@ class TrackingCompany extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'link', 'note'];
+    protected $fillable = ['name', 'link', 'note', 'enabled'];
 }

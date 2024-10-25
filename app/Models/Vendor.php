@@ -9,5 +9,5 @@ class Vendor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description'];
+    protected $fillable = ['name', 'slug', 'description', 'enabled'];
 }

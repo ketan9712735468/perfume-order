@@ -20,7 +20,9 @@ class StockControlStatusController extends Controller
 
     public function store(Request $request)
     {
-        $stock_control_status = StockControlStatus::create($request->all());
+        $stockcontrolstatusData = $request->all();
+        $stockcontrolstatusData['enabled'] = $request->has('enabled') ? true : false;
+        $stock_control_status = StockControlStatus::create($stockcontrolstatusData);
         return redirect()->route('stock_control_statuses.index');
     }
 
@@ -31,7 +33,9 @@ class StockControlStatusController extends Controller
 
     public function update(Request $request, StockControlStatus $stock_control_status)
     {
-        $stock_control_status->update($request->all());
+        $stockcontrolstatusData = $request->all();
+        $stockcontrolstatusData['enabled'] = $request->has('enabled') ? true : false;
+        $stock_control_status->update($stockcontrolstatusData);
         return redirect()->route('stock_control_statuses.index');
     }
 

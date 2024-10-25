@@ -20,7 +20,9 @@ class TrackingCompanyController extends Controller
 
     public function store(Request $request)
     {
-        $tracking_company = TrackingCompany::create($request->all());
+        $TrackingCompanyData = $request->all();
+        $TrackingCompanyData['enabled'] = $request->has('enabled') ? true : false;
+        $tracking_company = TrackingCompany::create($TrackingCompanyData);
         return redirect()->route('tracking_companies.index');
     }
 
@@ -31,7 +33,9 @@ class TrackingCompanyController extends Controller
 
     public function update(Request $request, TrackingCompany $tracking_company)
     {
-        $tracking_company->update($request->all());
+        $TrackingCompanyData = $request->all();
+        $TrackingCompanyData['enabled'] = $request->has('enabled') ? true : false;
+        $tracking_company->update($TrackingCompanyData);
         return redirect()->route('tracking_companies.index');
     }
 

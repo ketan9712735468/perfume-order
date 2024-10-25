@@ -17,6 +17,7 @@
                                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                             <th class="py-3 px-6 text-left">Name</th>
                                             <th class="py-3 px-6 text-left">Description</th>
+                                            <th class="py-3 px-6 text-left">Active</th>
                                             <th class="py-3 px-6 text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -28,6 +29,9 @@
                                                 </td>
                                                 <td class="py-3 px-6 text-left">
                                                     <span>{{ $type->description }}</span>
+                                                </td>
+                                                <td class="py-3 px-6 text-left">
+                                                    <span>{{ $type->enabled ? 'True' : 'False' }}</span>
                                                 </td>
                                                 <td class="py-4 px-6 align-start text-center">
                                                     <div class="inline-flex items-center space-x-4">

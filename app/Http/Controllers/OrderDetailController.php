@@ -89,12 +89,12 @@ class OrderDetailController extends Controller
 
     public function create()
     {
-        $branches = Branch::all();
-        $employees = Employee::all();
-        $vendors = Vendor::all();
-        $types = Type::all();
-        $trackingCompanies = TrackingCompany::all();
-        $stockControlStatuses = StockControlStatus::all();
+        $branches = Branch::where('enabled', true)->get();
+        $employees = Employee::where('enabled', true)->get();
+        $vendors = Vendor::where('enabled', true)->get();
+        $types = Type::where('enabled', true)->get();
+        $trackingCompanies = TrackingCompany::where('enabled', true)->get();
+        $stockControlStatuses = StockControlStatus::where('enabled', true)->get();
 
         return view('order_details.create', compact('branches', 'employees', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
     }
@@ -153,12 +153,12 @@ class OrderDetailController extends Controller
         $orderDetail->paid_date = \Carbon\Carbon::parse($orderDetail->paid_date);
         $orderDetail->delivery_date = \Carbon\Carbon::parse($orderDetail->delivery_date);
 
-        $branches = Branch::all();
-        $employees = Employee::all();
-        $vendors = Vendor::all();
-        $types = Type::all();
-        $trackingCompanies = TrackingCompany::all();
-        $stockControlStatuses = StockControlStatus::all();
+        $branches = Branch::where('enabled', true)->get();
+        $employees = Employee::where('enabled', true)->get();
+        $vendors = Vendor::where('enabled', true)->get();
+        $types = Type::where('enabled', true)->get();
+        $trackingCompanies = TrackingCompany::where('enabled', true)->get();
+        $stockControlStatuses = StockControlStatus::where('enabled', true)->get();
 
         return view('order_details.edit', compact('orderDetail', 'branches', 'employees', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
     }

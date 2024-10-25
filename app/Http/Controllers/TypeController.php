@@ -20,7 +20,9 @@ class TypeController extends Controller
 
     public function store(Request $request)
     {
-        $type = Type::create($request->all());
+        $typeData = $request->all();
+        $typeData['enabled'] = $request->has('enabled') ? true : false;
+        $type = Type::create($typeData);
         return redirect()->route('types.index');
     }
 
@@ -31,7 +33,9 @@ class TypeController extends Controller
 
     public function update(Request $request, Type $type)
     {
-        $type->update($request->all());
+        $typeData = $request->all();
+        $typeData['enabled'] = $request->has('enabled') ? true : false;
+        $type->update($typeData);
         return redirect()->route('types.index');
     }
 
