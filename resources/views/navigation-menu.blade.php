@@ -97,11 +97,11 @@
         <!-- Perfume Service, Perfume Order, and Settings Section -->
         <div class="flex items-center space-x-4 w-33">
             <x-dropdown-link href="/perfume-service/projects" class="whitespace-nowrap w-fit">
-                {{ __('Inventory Management') }}
+                {{ __('Generate Orders') }}
             </x-dropdown-link>
 
             <x-dropdown-link href="/perfume-order/order_details" class="whitespace-nowrap w-fit">
-                {{ __('Generate Orders') }}
+                {{ __('Inventory Management') }}
             </x-dropdown-link>
 
             <!-- Settings Dropdown -->

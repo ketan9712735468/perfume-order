@@ -192,7 +192,7 @@ class ProjectFileController extends Controller
             } else {
                 Log::error('Failed to synchronize files', ['response' => $response->body()]);
                 return redirect()->route('projects.show', ['project' => $project->id, 'type' => 'files'])
-                    ->with('error', 'Failed to synchronize files.');
+                    ->with('error', $response->json()['error']);
             }
         } catch (\Exception $e) {
             Log::error('Exception occurred during synchronization', ['exception' => $e->getMessage()]);
