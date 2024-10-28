@@ -32,6 +32,29 @@ class ProjectInventoryController extends Controller
             $fileName = 'projects_' . time() . '_' . Str::random(10) . '.' . $extension;
             $file->storeAs(ProjectInventory::$FOLDER_PATH, $fileName);
 
+
+            $spreadsheet = IOFactory::load($file->getPathname());
+            $sheet = $spreadsheet->getActiveSheet(); // Get the first sheet
+            $data = $sheet->toArray(null, true, true, true); // Convert to array
+
+            foreach ($data[0] as $row) {
+                // Assuming 'product_sku' is the column name for SKU in your inventory file
+                $sku = $row['sku'] ?? null;
+    
+                // Conditions to avoid invalid SKUs
+                if ($sku && $sku !== "" && $sku !== "-none-") {
+                    // Save the inventory data
+                    ReportData::create([
+                        'project_id' => $project->id,
+                        'product_sku' => $sku,
+                        'name' => $row['product'] ?? null,
+                        'brand' => $row['brand'] ?? null,
+                        'category' => $row['category'] ?? null,
+                        'file_name' => 'inventory'
+                    ]);
+                }
+            }
+
             $project->inventories()->create([
                 'file' => $fileName,
                 'original_name' => $originalFileName,
