@@ -12,12 +12,91 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\File;
 use App\Models\ResultFile;
+use App\Models\ReportData;
 use Illuminate\Support\Facades\Storage;
 use Aws\Lambda\LambdaClient;
 
 
 class ProjectFileController extends Controller
 {
+    protected function parseVendorFile($file)
+    {
+        ini_set('memory_limit', '1G'); // Set memory limit for handling larger files
+        // Load the spreadsheet
+        $spreadsheet = IOFactory::load($file->getPathname());
+        $worksheet = $spreadsheet->getActiveSheet();
+
+        // Array to hold parsed data
+        $data = [];
+
+        // Read headers from the first row and map them by column letter
+        $header = [];
+        foreach ($worksheet->getRowIterator(1, 1) as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true);  // Only iterate over existing cells
+            foreach ($cellIterator as $cell) {
+                $columnLetter = $cell->getColumn();
+                $header[$columnLetter] = strtolower(trim($cell->getValue()));
+            }
+        }
+
+        // Define aliases for dynamic mapping
+        $nameAliases = ['name', 'description', 'product name'];
+        $skuAliases = ['upc', 'sku'];
+        $priceAliases = ['price'];
+        $brandAliases = ['brand'];
+        $categoryAliases = ['category'];
+
+        // Expected columns and mappings based on aliases
+        $columnMappings = [
+            'product_sku' => null,
+            'name' => null,
+            'price' => null,
+            'brand' => null,
+            'category' => null,
+        ];
+
+        // Map each alias to the correct column based on header row
+        foreach ($header as $columnLetter => $headerValue) {
+            if (in_array($headerValue, $skuAliases)) {
+                $columnMappings['product_sku'] = $columnLetter;
+            } elseif (in_array($headerValue, $nameAliases)) {
+                $columnMappings['name'] = $columnLetter;
+            } elseif (in_array($headerValue, $priceAliases)) {
+                $columnMappings['price'] = $columnLetter;
+            } elseif (in_array($headerValue, $brandAliases)) {
+                $columnMappings['brand'] = $columnLetter;
+            } elseif (in_array($headerValue, $categoryAliases)) {
+                $columnMappings['category'] = $columnLetter;
+            }
+        }
+
+        Log::debug("Mapped Columns: ", $columnMappings);
+
+        // Start reading data from the second row onward
+        foreach ($worksheet->getRowIterator(2) as $row) {
+            $rowData = [];
+
+            foreach ($columnMappings as $dbField => $columnLetter) {
+                if ($columnLetter) {
+                    $cell = $worksheet->getCell($columnLetter . $row->getRowIndex());
+                    $rowData[$dbField] = trim($cell->getValue());
+                }
+            }
+
+            // Log and add row if key fields are present
+            if (!empty($rowData['product_sku']) && !empty($rowData['name'])) {
+                Log::debug("Row Data Parsed: ", $rowData);
+                $data[] = $rowData;
+            }
+        }
+
+        // Final log of all parsed data
+        Log::debug("Parsed Data Array: ", $data);
+
+        return $data;
+    }
+
     public function index(Project $project)
     {
         $files = $project->files;
@@ -59,15 +138,28 @@ class ProjectFileController extends Controller
         $request->validate([
             'file' => 'required|file|mimes:xlsx,xls'
         ]);
+
         Log::debug("$request this is request ");
+
         if ($request->hasFile('file')) {
             $file = $request->file('file');
 
+            // Generate file name and store
             $extension = $file->getClientOriginalExtension();
             $originalFileName = $file->getClientOriginalName();
             $fileName = 'projects_' . time() . '_' . Str::random(10) . '.' . $extension;
             $file->storeAs(ProjectFile::$FOLDER_PATH, $fileName);
 
+            // Parse the vendor file to extract relevant data
+            $parsedData = $this->parseVendorFile($file);
+
+            // Iterate through the parsed data and save to ReportData table
+            foreach ($parsedData as $data) {
+                $data['project_id'] = $project->id; // Associate with the project
+                $data['file_name'] = $originalFileName;
+                ReportData::create($data);
+            }
+            // Store file metadata in the database
             $project->files()->create([
                 'file' => $fileName,
                 'original_name' => $originalFileName,
