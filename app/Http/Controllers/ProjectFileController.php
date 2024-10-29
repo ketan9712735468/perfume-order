@@ -21,9 +21,11 @@ class ProjectFileController extends Controller
 {
     protected function parseVendorFile($file)
     {
-        ini_set('memory_limit', '1G'); // Set memory limit for handling larger files
-        // Load the spreadsheet
-        $spreadsheet = IOFactory::load($file->getPathname());
+        ini_set('memory_limit', '1G');
+        // Load the spreadsheet in a memory-efficient way
+        $reader = IOFactory::createReaderForFile($file->getPathname());
+        $reader->setReadDataOnly(true); // Read only the data, no formatting
+        $spreadsheet = $reader->load($file->getPathname());
         $worksheet = $spreadsheet->getActiveSheet();
 
         // Array to hold parsed data
