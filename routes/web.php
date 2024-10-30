@@ -12,6 +12,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectFileController;
 use App\Http\Controllers\ResultFileController;
 use App\Http\Controllers\ProjectInventoryController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -64,4 +65,5 @@ Route::middleware([
     Route::post('/files/toggle-enabled', [ProjectFileController::class, 'toggleEnabled']);
     Route::get('/preview-inventory/{filename}', [ProjectInventoryController::class, 'preview'])->name('inventory.preview');
     Route::get('/download-inventory/{filename}', [ProjectInventoryController::class, 'download'])->name('inventory_download');
+    Route::resource('reports', ReportController::class);
 });

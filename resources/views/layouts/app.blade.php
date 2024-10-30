@@ -75,6 +75,9 @@
                         <a href="/perfume-service/projects" class="{{ request()->is('perfume-service/projects*') ? 'active' : '' }}">
                             <i class="fa-solid fa-sheet-plastic"></i> <span>Projects</span>
                         </a>
+                        <a href="/perfume-service/reports" class="{{ request()->is('perfume-service/reports*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-chart-simple"></i> <span>Reports</span>
+                        </a>
                     @else
                         <a href="/dashboard" class="{{ request()->is('dashboard') ? 'active' : '' }}">
                             <i class="fas fa-home"></i> <span>Dashboard</span>
