@@ -9,6 +9,11 @@
                             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                                 {{ __('Report') }}
                             </h2>
+                            <form method="GET" action="{{ route('reports.index') }}" class="flex space-x-2">
+                                <input type="text" name="product_sku" value="{{ request('product_sku') }}" placeholder="Filter by SKU" class="border border-gray-300 rounded px-2 py-1">
+                                <input type="text" name="name" value="{{ request('name') }}" placeholder="Filter by Name" class="border border-gray-300 rounded px-2 py-1">
+                                <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded">Filter</button>
+                            </form>
                         </div>
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="bg-white shadow-md rounded-lg p-6">
