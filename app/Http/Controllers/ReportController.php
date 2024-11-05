@@ -20,22 +20,22 @@ class ReportController extends Controller
         // Build the select statement
         $selects = [
             'product_sku',
+            \DB::raw("MAX(name) as name"),
+            \DB::raw("MAX(brand) as brand"),
+            \DB::raw("MAX(category) as category"),
             'project_id',
-            'name',
-            'brand',
-            'category',
-            \DB::raw("DATE(created_at) as date"),
+            \DB::raw("DATE(created_at) as created_date"),
         ];
 
         // Create the CASE statements for each file name
         foreach ($fileNames as $file) {
             $selects[] = \DB::raw("MAX(CASE WHEN file_name = '{$file}.xlsx' THEN price END) as `{$file}_price`");
         }
-
+        
         // Execute the main query with pagination (e.g., 10 records per page)
         $reportData = ReportData::select($selects)
-            ->groupBy('product_sku', 'project_id', 'name', 'brand', 'category', \DB::raw("DATE(created_at)"))
-            ->paginate(500);
+            ->groupBy('product_sku', 'project_id', \DB::raw("DATE(created_at)"))
+            ->paginate(100);
 
         return view('reports.index', compact('reportData', 'fileNames')); // Pass processed file names to the view
     }

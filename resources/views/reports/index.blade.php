@@ -47,7 +47,7 @@
                                                         <span class="font-medium">{{ $report->category }}</span>
                                                     </td>
                                                     <td class="py-3 px-6 text-left">
-                                                        <span class="font-medium">{{ $report->date }}</span>
+                                                        <span class="font-medium">{{ $report->created_date }}</span>
                                                     </td>
                                                     @foreach ($fileNames as $fileName)
                                                         <td class="py-3 px-6 text-left">{{ $report->{$fileName . '_price'} ?? '' }}</td>
