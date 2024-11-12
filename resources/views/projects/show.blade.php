@@ -319,6 +319,7 @@
     <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         <div class="px-4 py-5 sm:p-6 flex flex-col flex-grow overflow-y-auto">
             <h2 class="text-lg leading-6 font-medium text-gray-900 mb-4">Merge Files</h2>
+            @if($project->inventories->isNotEmpty())
                 <!-- If inventory files exist, show the merge form -->
                 <form id="mergeFilesForm" method="POST" action="{{ route('projects.files.syncAll', $project) }}" onsubmit="showLoader()">
                     @csrf
@@ -335,6 +336,57 @@
                         </button>
                     </div>
                 </form>
+            @else
+                <div id="validationError" class="text-red-600 mb-4" style="display: none;"></div>
+                <form id="selectFilesForm" method="POST" action="{{ route('projects.files.manualSync', $project) }}" onsubmit="showLoader()">
+                    @csrf
+                    <div id="filesSelectionContainer" class="mb-6">
+                        <div id="filesSelection" class="space-y-4">
+                            @foreach ($fileDetails as $fileDetail)
+                            <div class="mb-6">
+                                <!-- Hidden field for file ID -->
+                                <input type="hidden" name="fileIds[]" value="{{ $fileDetail['id'] }}">
+
+                                <label for="file_{{ $fileDetail['id'] }}" class="block text-gray-700 mb-2">{{ $fileDetail['original_name'] }}</label>
+
+                                <div class="mb-4">
+                                    <label for="commonColumn_{{ $fileDetail['id'] }}" class="block text-gray-700 mb-2">Select Common Column for {{ $fileDetail['original_name'] }}</label>
+                                    <select id="commonColumn_{{ $fileDetail['id'] }}" name="commonColumn[{{ $fileDetail['id'] }}]" class="form-select w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">-- Select Common Column --</option>
+                                        @foreach ($fileDetail['columns'] as $column)
+                                        <option value="{{ $column }}">{{ $column }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="fileColumns_{{ $fileDetail['id'] }}" class="block text-gray-700 mb-2">Select Columns for {{ $fileDetail['original_name'] }}</label>
+                                    <select id="fileColumns_{{ $fileDetail['id'] }}" name="columns[{{ $fileDetail['id'] }}][]" multiple class="form-select w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        @foreach ($fileDetail['columns'] as $column)
+                                        <option value="{{ $column }}">{{ $column }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="mergeFileName" class="block text-gray-700 mb-2">File Name</label>
+                        <input type="text" id="mergeFileName" name="mergeFileName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+
+                    <div class="flex justify-end space-x-4 mt-4">
+                        <button type="button" onclick="closeMergeModal()" class="inline-flex items-center px-4 py-2 mr-4 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                            Cancel
+                        </button>
+                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            Merge
+                        </button>
+                    </div>
+                </form>
+            @endif
         </div>
     </div>
 </div>
