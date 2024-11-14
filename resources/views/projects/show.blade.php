@@ -315,8 +315,8 @@
 </div>
 
 <!-- Merge Files Modal -->
-<div id="mergeFilesModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+<div id="mergeFilesModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-10">
+    <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col mt-6">
         <div class="px-4 py-5 sm:p-6 flex flex-col flex-grow overflow-y-auto">
             <h2 class="text-lg leading-6 font-medium text-gray-900 mb-4">Merge Files</h2>
             @if($project->inventories->isNotEmpty())
