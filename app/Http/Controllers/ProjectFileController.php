@@ -297,6 +297,7 @@ class ProjectFileController extends Controller
 
     public function manualSync(Request $request, Project $project)
     {
+        ini_set('max_execution_time', 1200);
         // Retrieve the common columns selected
         $commonColumns = $request->input('commonColumn');
         
