@@ -30,7 +30,7 @@ class ReportController extends Controller
 
         // Create the CASE statements for each file name
         foreach ($fileNames as $file) {
-            $selects[] = \DB::raw("MAX(CASE WHEN file_name = '{$file}.xlsx' THEN price END) as `{$file}_price`");
+            $selects[] = \DB::raw("MAX(CASE WHEN file_name = '{$file}.xlsx' THEN price END) as \"{$file}_price\"");
         }
         
         // Start building the query
@@ -42,7 +42,6 @@ class ReportController extends Controller
             $query->where('product_sku', $request->input('product_sku'));
         }
         if ($request->filled('name')) {
-            dd($request->input('product_sku'));
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
 
