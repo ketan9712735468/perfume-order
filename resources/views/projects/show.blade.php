@@ -439,7 +439,6 @@
         appendFileName(filesSelection);
 
         fileDetails.forEach(fileDetail => {
-            
             const fileElement = document.createElement('div');
             fileElement.classList.add('mb-6');
 
@@ -453,7 +452,6 @@
             // Label for file name
             const label = document.createElement('label');
             label.classList.add('block', 'text-gray-700', 'mb-2');
-            console.log(fileDetail.original_name,'fileDetail.original_name')
             label.textContent = fileDetail.original_name;
             fileElement.appendChild(label);
 
@@ -467,10 +465,14 @@
             commonColumnSelect.name = `commonColumn[${fileDetail.id}]`;
             commonColumnSelect.classList.add('form-select', 'w-full', 'px-4', 'py-2', 'bg-gray-50', 'border', 'border-gray-300', 'rounded-md', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500');
             commonColumnSelect.innerHTML = '<option value="">-- Select Common Column --</option>';
+            
             Object.values(fileDetail.columns).forEach(column => {
                 const option = document.createElement('option');
                 option.value = column;
                 option.textContent = column;
+                if (column.toLowerCase() === 'upc') {
+                    option.selected = true; // Pre-select UPC if found
+                }
                 commonColumnSelect.appendChild(option);
             });
             fileElement.appendChild(commonColumnSelect);
@@ -485,10 +487,14 @@
             fileColumnsSelect.name = `columns[${fileDetail.id}][]`;
             fileColumnsSelect.multiple = true;
             fileColumnsSelect.classList.add('form-select', 'w-full', 'px-4', 'py-2', 'bg-gray-50', 'border', 'border-gray-300', 'rounded-md', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500');
+            
             Object.values(fileDetail.columns).forEach(column => {
                 const option = document.createElement('option');
                 option.value = column;
                 option.textContent = column;
+                if (column.toLowerCase() === 'price') {
+                    option.selected = true; // Pre-select Price if found
+                }
                 fileColumnsSelect.appendChild(option);
             });
             fileElement.appendChild(fileColumnsSelect);
@@ -504,116 +510,6 @@
     function showLoader() {
         document.getElementById('loadingIndicator').classList.remove('hidden');
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('selectFilesForm');
-        const fileDropdowns = document.querySelectorAll('#filesSelection .mb-6');
-        const validationError = document.getElementById('validationError');
-
-        function validateForm() {
-            const commonColumnValues = new Set();
-            let allSelected = true;
-
-            fileDropdowns.forEach(fileDiv => {
-                const fileId = fileDiv.querySelector('input[name="fileIds[]"]').value;
-                const commonColumnSelect = fileDiv.querySelector(`#commonColumn_${fileId}`);
-                const selectedCommonColumn = commonColumnSelect.value;
-
-                if (selectedCommonColumn) {
-                    commonColumnValues.add(selectedCommonColumn.toLowerCase());
-                } else {
-                    allSelected = false;
-                }
-            });
-
-            if (!allSelected) {
-                validationError.textContent = 'Please select a common column for all files.';
-                validationError.style.display = 'block';
-                return false;
-            }
-
-            if (commonColumnValues.size > 1) {
-                validationError.textContent = 'All selected common columns must be the same.';
-                validationError.style.display = 'block';
-                return false;
-            } else {
-                validationError.style.display = 'none';
-                return true;
-            }
-        }
-
-        // Function to select default values if available
-        function selectDefaultColumns(fileDiv, isFirstFile = false) {
-            const fileId = fileDiv.querySelector('input[name="fileIds[]"]').value;
-
-            // Set the default common column (UPC) if it exists
-            const commonColumnSelect = fileDiv.querySelector(`#commonColumn_${fileId}`);
-            const commonColumnOptions = Array.from(commonColumnSelect.options);
-            const upcOption = commonColumnOptions.find(option => option.value.toLowerCase() === 'upc');
-            let selectedCommonColumnValue = null;
-
-            if (upcOption) {
-                commonColumnSelect.value = upcOption.value; // Set UPC as the default selection
-                selectedCommonColumnValue = upcOption.value;
-                hideSelectedCommonColumn(fileDiv, selectedCommonColumnValue); // Hide UPC from file columns
-            }
-
-            // Set all columns as selected for the first file, excluding the common column
-            const fileColumnsSelect = fileDiv.querySelector(`#fileColumns_${fileId}`);
-            const fileColumnOptions = Array.from(fileColumnsSelect.options);
-
-            if (isFirstFile) {
-                fileColumnOptions.forEach(option => {
-                    if (option.value !== selectedCommonColumnValue) {
-                        option.selected = true; // Select all except the common column
-                    }
-                });
-            } else {
-                // Set the default file column (Price) if it exists
-                const priceOption = fileColumnOptions.find(option => option.value.toLowerCase() === 'price');
-                if (priceOption) {
-                    priceOption.selected = true; // Select Price by default for non-first files
-                }
-            }
-        }
-
-        // Function to hide selected common column from file-specific columns
-        function hideSelectedCommonColumn(fileDiv, commonColumn) {
-            const fileId = fileDiv.querySelector('input[name="fileIds[]"]').value;
-            const fileColumnsSelect = fileDiv.querySelector(`#fileColumns_${fileId}`);
-            Array.from(fileColumnsSelect.options).forEach(option => {
-                if (option.value === commonColumn) {
-                    option.style.display = 'none'; // Hide the selected common column
-                } else {
-                    option.style.display = ''; // Show other columns
-                }
-            });
-        }
-
-        form.addEventListener('submit', (event) => {
-            if (!validateForm()) {
-                event.preventDefault(); // Prevent form submission if validation fails
-            }
-        });
-
-        fileDropdowns.forEach((fileDiv, index) => {
-            const fileId = fileDiv.querySelector('input[name="fileIds[]"]').value;
-            const commonColumnSelect = fileDiv.querySelector(`#commonColumn_${fileId}`);
-
-            // Automatically select default columns when the page loads
-            selectDefaultColumns(fileDiv, index === 0); // Pass true if it's the first file
-
-            commonColumnSelect.addEventListener('change', () => {
-                const selectedCommonColumn = commonColumnSelect.value;
-
-                // Update file columns dropdown to exclude the selected common column
-                hideSelectedCommonColumn(fileDiv, selectedCommonColumn);
-
-                // Validate form whenever a common column is selected
-                validateForm();
-            });
-        });
-    });
 
     document.getElementById('select-all').addEventListener('click', function(event) {
         const checkboxes = document.querySelectorAll('.file-checkbox');
