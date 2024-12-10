@@ -65,5 +65,6 @@ Route::middleware([
     Route::post('/files/toggle-enabled', [ProjectFileController::class, 'toggleEnabled']);
     Route::get('/preview-inventory/{filename}', [ProjectInventoryController::class, 'preview'])->name('inventory.preview');
     Route::get('/download-inventory/{filename}', [ProjectInventoryController::class, 'download'])->name('inventory_download');
+    Route::get('/check-inventory-file/{projectId}', [ProjectController::class, 'checkInventoryFile']);
     Route::resource('reports', ReportController::class);
 });

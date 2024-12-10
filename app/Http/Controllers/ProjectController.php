@@ -68,34 +68,8 @@ class ProjectController extends Controller
         }
     
         // Fetch all project files
-        $files = $project->files()->where('enabled', true)->get();; // Adjust based on your actual relationship
-    
-        // Get columns for each file
+        $files = $project->files()->where('enabled', true)->get();
         $fileDetails = [];
-        foreach ($files as $file) {
-            $path = storage_path('app/private/uploads/projects/' . $file->file);
-            $extension = pathinfo($path, PATHINFO_EXTENSION);
-            $header = [];
-
-            if ($extension === 'csv') {
-                $csv = Reader::createFromPath($path, 'r');
-                $csv->setHeaderOffset(0); // Set to 0 for CSV with headers
-                $header = $csv->getHeader();
-            } elseif (in_array($extension, ['xls', 'xlsx'])) {
-                $spreadsheet = IOFactory::load($path);
-                $sheet = $spreadsheet->getActiveSheet();
-                $header = $sheet->rangeToArray('1:1')[0]; // Read the first row as header
-            }
-
-            // Filter out empty columns
-            $fileDetails[] = [
-                'id' => $file->id,
-                'original_name' => $file->original_name,
-                'columns' => array_filter($header, function ($column) {
-                    return !empty(trim($column));
-                }),
-            ];
-        }
         // Render the project view
         return view('projects.show', compact('project', 'fileDetails'));
     }
@@ -131,4 +105,56 @@ class ProjectController extends Controller
         $project->delete();
         return redirect()->route('projects.index');
     }
+
+    public function checkInventoryFile($projectId)
+    {
+        try {
+            // Fetch the project with files and inventories
+            $project = Project::with(['files' => function ($query) {
+                $query->where('enabled', true);
+            }, 'inventories'])->findOrFail($projectId);
+
+            // Get columns for each file
+            $fileDetails = [];
+            foreach ($project->files as $file) {
+                $path = storage_path('app/private/uploads/projects/' . $file->file);
+                if (!file_exists($path)) {
+                    continue; // Skip if the file does not exist
+                }
+
+                $extension = pathinfo($path, PATHINFO_EXTENSION);
+                $header = [];
+
+                if ($extension === 'csv') {
+                    $csv = \League\Csv\Reader::createFromPath($path, 'r');
+                    $csv->setHeaderOffset(0); // Set to 0 for CSV with headers
+                    $header = $csv->getHeader();
+                } elseif (in_array($extension, ['xls', 'xlsx'])) {
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+                    $sheet = $spreadsheet->getActiveSheet();
+                    $header = $sheet->rangeToArray('1:1')[0]; // Read the first row as header
+                }
+
+                // Filter out empty columns
+                $fileDetails[] = [
+                    'id' => $file->id,
+                    'original_name' => $file->original_name,
+                    'columns' => array_filter($header, function ($column) {
+                        return !empty(trim($column));
+                    }),
+                ];
+            }
+
+            return response()->json([
+                'inventoryAvailable' => $project->inventories->isNotEmpty(),
+                'fileDetails' => $fileDetails,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch file details.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
 }
