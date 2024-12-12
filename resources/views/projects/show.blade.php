@@ -315,7 +315,7 @@
     </div>
 
 <!-- Excel Preview Modal -->
-<div id="excelPreviewModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+<div id="excelPreviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-7xl mx-auto w-full">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold text-gray-900">Excel Preview</h2>
