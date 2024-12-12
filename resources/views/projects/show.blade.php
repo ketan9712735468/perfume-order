@@ -2,17 +2,34 @@
     <style>
         /* Loader styles */
         .loader {
-            border: 8px solid rgba(0, 0, 0, 0.1);
+            width: 64px;
+            height: 48px;
+            position: relative;
+            animation: split 1s ease-in infinite alternate;
+        }
+        .loader::before , .loader::after {
+            content: '';
+            position: absolute;
+            height: 48px;
+            width: 48px;
             border-radius: 50%;
-            border-top: 8px solid #3498db;
-            width: 60px;
-            height: 60px;
-            animation: spin 1.5s linear infinite;
+            left: 0;
+            top: 0;
+            transform: translateX(-10px);
+            background: #991b1b;
+            opacity: 0.75;
+            backdrop-filter: blur(20px);
+        }
+        .loader::after {
+            left: auto;
+            right: 0;
+            background: #000;
+            transform: translateX(10px);
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes split {
+            0% , 25%{ width: 64px }
+            100%{ width: 148px }
         }
     </style>
 
@@ -298,7 +315,7 @@
     </div>
 
 <!-- Excel Preview Modal -->
-<div id="excelPreviewModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+<div id="excelPreviewModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-7xl mx-auto w-full">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold text-gray-900">Excel Preview</h2>
@@ -327,7 +344,7 @@
                         <!-- These will be dynamically updated based on the API response -->
                     </div>
                 </div>
-
+                <div id="append_loader"></div>
                 <div class="flex justify-end space-x-4 mt-4">
                     <button type="button" onclick="closeMergeModal()" class="inline-flex items-center px-4 py-2 mr-4 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                         Cancel
@@ -341,8 +358,8 @@
     </div>
 </div>
 
-<!-- Modal for Loader -->
-<div id="loadingIndicator" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+<!-- Loading Indicator -->
+<div id="loadingIndicator" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="loader"></div>
 </div>
 
@@ -372,6 +389,7 @@
             .catch(error => {
                 document.getElementById('loadingIndicator').classList.add('hidden');
                 console.error('Error fetching preview:', error);
+                alert('An error occurred while fetching the file preview.');
             });
     }
 
@@ -381,7 +399,7 @@
     }
 
     function appendLoader(doc){
-        doc.innerHTML += `<div class="loader"></div>`
+        doc.innerHTML += `<div class="flex items-center justify-center"><div class="loader"></div></div>`
     }
 
     function removeLoader(doc){
@@ -410,13 +428,14 @@
     function openMergeModal(projectId) {
         document.getElementById('mergeFilesModal').classList.remove('hidden');
         const mergeFileModal = document.getElementById('mergeFilesForm');
-        appendLoader(mergeFileModal);
+        const append_loader = document.getElementById('append_loader');
+        appendLoader(append_loader);
 
         // Fetch inventory status from the API
         fetch('/perfume-service/check-inventory-file/' + projectId)
             .then(response => response.json())
             .then(data => {
-                removeLoader(mergeFileModal);
+                removeLoader(append_loader);
 
                 // Set form action based on inventoryAvailable
                 if (data.inventoryAvailable) {
@@ -431,7 +450,7 @@
                 }
             })
             .catch(error => console.error('Error fetching inventory status:', error));
-    }
+        }
 
     function updateFilesSelection(fileDetails) {
         const filesSelection = document.getElementById('filesSelection');
@@ -505,10 +524,16 @@
 
     function closeMergeModal() {
         document.getElementById('mergeFilesModal').classList.add('hidden');
+        const append_loader = document.getElementById('append_loader');
+        const filesSelection = document.getElementById('filesSelection');
+        filesSelection.innerHTML = '';
+        removeLoader(append_loader);
     }
 
     function showLoader() {
-        document.getElementById('loadingIndicator').classList.remove('hidden');
+        const append_loader = document.getElementById('append_loader');
+        const filesSelection = document.getElementById('filesSelection');
+        appendLoader(append_loader);
     }
 
     document.getElementById('select-all').addEventListener('click', function(event) {

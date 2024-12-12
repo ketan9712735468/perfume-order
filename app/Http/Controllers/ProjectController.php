@@ -114,6 +114,14 @@ class ProjectController extends Controller
                 $query->where('enabled', true);
             }, 'inventories'])->findOrFail($projectId);
 
+            // If inventories exist, return only inventoryAvailable as true
+            if ($project->inventories->isNotEmpty()) {
+                return response()->json([
+                    'inventoryAvailable' => true,
+                    'fileDetails' => [], // Return an empty array to minimize response size
+                ], 200);
+            }
+
             // Get columns for each file
             $fileDetails = [];
             foreach ($project->files as $file) {
@@ -146,7 +154,7 @@ class ProjectController extends Controller
             }
 
             return response()->json([
-                'inventoryAvailable' => $project->inventories->isNotEmpty(),
+                'inventoryAvailable' => false,
                 'fileDetails' => $fileDetails,
             ], 200);
         } catch (\Exception $e) {

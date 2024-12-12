@@ -1,4 +1,38 @@
 <x-app-layout>
+    <style>
+        /* Loader styles */
+        .loader {
+            width: 64px;
+            height: 48px;
+            position: relative;
+            animation: split 1s ease-in infinite alternate;
+        }
+        .loader::before , .loader::after {
+            content: '';
+            position: absolute;
+            height: 48px;
+            width: 48px;
+            border-radius: 50%;
+            left: 0;
+            top: 0;
+            transform: translateX(-10px);
+            background: #991b1b;
+            opacity: 0.75;
+            backdrop-filter: blur(20px);
+        }
+
+        .loader::after {
+            left: auto;
+            right: 0;
+            background: #000;
+            transform: translateX(10px);
+        }
+
+        @keyframes split {
+            0% , 25%{ width: 64px }
+            100%{ width: 148px }
+        }
+    </style>
 
     <div class="flex-grow ml-64 mt-24 main_layout">
         <div class="max-w-7xl ml-1">
@@ -163,8 +197,8 @@
     </div>
 
     <!-- Loading Indicator -->
-    <div id="loadingIndicator" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-        <div class="loader"></div> <!-- You can use a CSS spinner here -->
+    <div id="loadingIndicator" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="loader"></div>
     </div>
 
     <script>
