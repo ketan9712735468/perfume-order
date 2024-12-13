@@ -2,17 +2,34 @@
     <style>
         /* Loader styles */
         .loader {
-            border: 8px solid rgba(0, 0, 0, 0.1);
+            width: 64px;
+            height: 48px;
+            position: relative;
+            animation: split 1s ease-in infinite alternate;
+        }
+        .loader::before , .loader::after {
+            content: '';
+            position: absolute;
+            height: 48px;
+            width: 48px;
             border-radius: 50%;
-            border-top: 8px solid #3498db;
-            width: 60px;
-            height: 60px;
-            animation: spin 1.5s linear infinite;
+            left: 0;
+            top: 0;
+            transform: translateX(-10px);
+            background: #991b1b;
+            opacity: 0.75;
+            backdrop-filter: blur(20px);
+        }
+        .loader::after {
+            left: auto;
+            right: 0;
+            background: #000;
+            transform: translateX(10px);
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes split {
+            0% , 25%{ width: 64px }
+            100%{ width: 148px }
         }
     </style>
 
@@ -31,7 +48,7 @@
                                     </div>
                                     <div class="space-x-2">
                                         <a href="{{ route('projects.files.create', $project) }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">Upload Files</a>
-                                        <a href="#" onclick="openMergeModal()" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">Merge Files</a>
+                                        <a href="#" onclick="openMergeModal({{ $project->id }})" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">Merge Files</a>
                                     </div>
                                 </div>
 
@@ -298,7 +315,7 @@
     </div>
 
 <!-- Excel Preview Modal -->
-<div id="excelPreviewModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+<div id="excelPreviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-7xl mx-auto w-full">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold text-gray-900">Excel Preview</h2>
@@ -314,85 +331,35 @@
     </div>
 </div>
 
-<!-- Merge Files Modal -->
 <div id="mergeFilesModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-10">
     <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col mt-6">
         <div class="px-4 py-5 sm:p-6 flex flex-col flex-grow overflow-y-auto">
             <h2 class="text-lg leading-6 font-medium text-gray-900 mb-4">Merge Files</h2>
-            @if($project->inventories->isNotEmpty())
-                <!-- If inventory files exist, show the merge form -->
-                <form id="mergeFilesForm" method="POST" action="{{ route('projects.files.syncAll', $project) }}" onsubmit="showLoader()">
-                    @csrf
-                    <div class="mb-6">
-                        <label for="mergeFileName" class="block text-gray-700 mb-2">File Name</label>
-                        <input type="text" id="mergeFileName" name="mergeFileName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    </div>
-                    <div class="flex justify-end space-x-4">
-                        <button type="button" onclick="closeMergeModal()" class="inline-flex items-center px-4 py-2 mr-4 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
-                            Cancel
-                        </button>
-                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                            Merge
-                        </button>
-                    </div>
-                </form>
-            @else
-                <div id="validationError" class="text-red-600 mb-4" style="display: none;"></div>
-                <form id="selectFilesForm" method="POST" action="{{ route('projects.files.manualSync', $project) }}" onsubmit="showLoader()">
-                    @csrf
-                    <div id="filesSelectionContainer" class="mb-6">
-                        <div id="filesSelection" class="space-y-4">
-                            @foreach ($fileDetails as $fileDetail)
-                            <div class="mb-6">
-                                <!-- Hidden field for file ID -->
-                                <input type="hidden" name="fileIds[]" value="{{ $fileDetail['id'] }}">
+             
+            <form id="mergeFilesForm" method="POST" action="{{ route('projects.files.syncAll', $project) }}" onsubmit="showLoader()">
+                @csrf
 
-                                <label for="file_{{ $fileDetail['id'] }}" class="block text-gray-700 mb-2">{{ $fileDetail['original_name'] }}</label>
-
-                                <div class="mb-4">
-                                    <label for="commonColumn_{{ $fileDetail['id'] }}" class="block text-gray-700 mb-2">Select Common Column for {{ $fileDetail['original_name'] }}</label>
-                                    <select id="commonColumn_{{ $fileDetail['id'] }}" name="commonColumn[{{ $fileDetail['id'] }}]" class="form-select w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <option value="">-- Select Common Column --</option>
-                                        @foreach ($fileDetail['columns'] as $column)
-                                        <option value="{{ $column }}">{{ $column }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="fileColumns_{{ $fileDetail['id'] }}" class="block text-gray-700 mb-2">Select Columns for {{ $fileDetail['original_name'] }}</label>
-                                    <select id="fileColumns_{{ $fileDetail['id'] }}" name="columns[{{ $fileDetail['id'] }}][]" multiple class="form-select w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        @foreach ($fileDetail['columns'] as $column)
-                                        <option value="{{ $column }}">{{ $column }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
+                <div id="filesSelectionContainer" class="mb-6" >
+                    <div id="filesSelection" class="space-y-4">
+                        <!-- These will be dynamically updated based on the API response -->
                     </div>
-
-                    <div class="mb-6">
-                        <label for="mergeFileName" class="block text-gray-700 mb-2">File Name</label>
-                        <input type="text" id="mergeFileName" name="mergeFileName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    </div>
-
-                    <div class="flex justify-end space-x-4 mt-4">
-                        <button type="button" onclick="closeMergeModal()" class="inline-flex items-center px-4 py-2 mr-4 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
-                            Cancel
-                        </button>
-                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                            Merge
-                        </button>
-                    </div>
-                </form>
-            @endif
+                </div>
+                <div id="append_loader"></div>
+                <div class="flex justify-end space-x-4 mt-4">
+                    <button type="button" onclick="closeMergeModal()" class="inline-flex items-center px-4 py-2 mr-4 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                        Cancel
+                    </button>
+                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                        Merge
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- Modal for Loader -->
-<div id="loadingIndicator" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+<!-- Loading Indicator -->
+<div id="loadingIndicator" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="loader"></div>
 </div>
 
@@ -422,6 +389,7 @@
             .catch(error => {
                 document.getElementById('loadingIndicator').classList.add('hidden');
                 console.error('Error fetching preview:', error);
+                alert('An error occurred while fetching the file preview.');
             });
     }
 
@@ -430,127 +398,143 @@
         document.getElementById('excelPreviewModal').classList.add('hidden');
     }
 
-    function openMergeModal() {
+    function appendLoader(doc){
+        doc.innerHTML += `<div class="flex items-center justify-center"><div class="loader"></div></div>`
+    }
+
+    function removeLoader(doc){
+       const loader =  doc.querySelector(".loader")
+       loader.remove()
+    }
+
+    function appendFileName(doc){
+        const label = document.createElement('label');
+        label.setAttribute('for', 'mergeFileName');
+        label.classList.add('block', 'text-gray-700', 'mb-2');
+        label.textContent = 'File Name';
+
+        // Create input element
+        const input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('id', 'mergeFileName');
+        input.setAttribute('name', 'mergeFileName');
+        input.setAttribute('required', true);
+        input.classList.add('w-full', 'px-4', 'py-2', 'bg-gray-50', 'border', 'border-gray-300', 'rounded-md', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500');
+
+        doc.appendChild(label)
+        doc.appendChild(input)
+    }
+
+    function openMergeModal(projectId) {
         document.getElementById('mergeFilesModal').classList.remove('hidden');
+        const mergeFileModal = document.getElementById('mergeFilesForm');
+        const append_loader = document.getElementById('append_loader');
+        appendLoader(append_loader);
+
+        // Fetch inventory status from the API
+        fetch('/perfume-service/check-inventory-file/' + projectId)
+            .then(response => response.json())
+            .then(data => {
+                removeLoader(append_loader);
+
+                // Set form action based on inventoryAvailable
+                if (data.inventoryAvailable) {
+                    const filesSelection = document.getElementById('filesSelection');
+                    filesSelection.innerHTML = '';
+                    mergeFileModal.setAttribute('action', '{{ route("projects.files.syncAll", $project) }}');
+                    appendFileName(filesSelection);
+                } else {
+                    mergeFileModal.setAttribute('action', '{{ route("projects.files.manualSync", $project) }}');
+                    updateFilesSelection(data.fileDetails);
+
+                }
+            })
+            .catch(error => console.error('Error fetching inventory status:', error));
+        }
+
+    function updateFilesSelection(fileDetails) {
+        const filesSelection = document.getElementById('filesSelection');
+        filesSelection.innerHTML = ''; // Clear previous selection
+        appendFileName(filesSelection);
+
+        fileDetails.forEach(fileDetail => {
+            const fileElement = document.createElement('div');
+            fileElement.classList.add('mb-6');
+
+            // Hidden field for file ID
+            const fileIdInput = document.createElement('input');
+            fileIdInput.type = 'hidden';
+            fileIdInput.name = 'fileIds[]';
+            fileIdInput.value = fileDetail.id;
+            fileElement.appendChild(fileIdInput);
+
+            // Label for file name
+            const label = document.createElement('label');
+            label.classList.add('block', 'text-gray-700', 'mb-2');
+            label.textContent = fileDetail.original_name;
+            fileElement.appendChild(label);
+
+            // Dropdown for common column selection
+            const commonColumnLabel = document.createElement('label');
+            commonColumnLabel.classList.add('block', 'text-gray-700', 'mb-2');
+            commonColumnLabel.textContent = `Select Common Column for ${fileDetail.original_name}`;
+            fileElement.appendChild(commonColumnLabel);
+
+            const commonColumnSelect = document.createElement('select');
+            commonColumnSelect.name = `commonColumn[${fileDetail.id}]`;
+            commonColumnSelect.classList.add('form-select', 'w-full', 'px-4', 'py-2', 'bg-gray-50', 'border', 'border-gray-300', 'rounded-md', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500');
+            commonColumnSelect.innerHTML = '<option value="">-- Select Common Column --</option>';
+            
+            Object.values(fileDetail.columns).forEach(column => {
+                const option = document.createElement('option');
+                option.value = column;
+                option.textContent = column;
+                if (column.toLowerCase() === 'upc') {
+                    option.selected = true; // Pre-select UPC if found
+                }
+                commonColumnSelect.appendChild(option);
+            });
+            fileElement.appendChild(commonColumnSelect);
+
+            // Dropdown for file columns
+            const fileColumnsLabel = document.createElement('label');
+            fileColumnsLabel.classList.add('block', 'text-gray-700', 'mb-2');
+            fileColumnsLabel.textContent = `Select Columns for ${fileDetail.original_name}`;
+            fileElement.appendChild(fileColumnsLabel);
+
+            const fileColumnsSelect = document.createElement('select');
+            fileColumnsSelect.name = `columns[${fileDetail.id}][]`;
+            fileColumnsSelect.multiple = true;
+            fileColumnsSelect.classList.add('form-select', 'w-full', 'px-4', 'py-2', 'bg-gray-50', 'border', 'border-gray-300', 'rounded-md', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500');
+            
+            Object.values(fileDetail.columns).forEach(column => {
+                const option = document.createElement('option');
+                option.value = column;
+                option.textContent = column;
+                if (column.toLowerCase() === 'price') {
+                    option.selected = true; // Pre-select Price if found
+                }
+                fileColumnsSelect.appendChild(option);
+            });
+            fileElement.appendChild(fileColumnsSelect);
+
+            filesSelection.appendChild(fileElement);
+        });
     }
 
     function closeMergeModal() {
         document.getElementById('mergeFilesModal').classList.add('hidden');
+        const append_loader = document.getElementById('append_loader');
+        const filesSelection = document.getElementById('filesSelection');
+        filesSelection.innerHTML = '';
+        removeLoader(append_loader);
     }
 
     function showLoader() {
-        document.getElementById('loadingIndicator').classList.remove('hidden');
+        const append_loader = document.getElementById('append_loader');
+        const filesSelection = document.getElementById('filesSelection');
+        appendLoader(append_loader);
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('selectFilesForm');
-        const fileDropdowns = document.querySelectorAll('#filesSelection .mb-6');
-        const validationError = document.getElementById('validationError');
-
-        function validateForm() {
-            const commonColumnValues = new Set();
-            let allSelected = true;
-
-            fileDropdowns.forEach(fileDiv => {
-                const fileId = fileDiv.querySelector('input[name="fileIds[]"]').value;
-                const commonColumnSelect = fileDiv.querySelector(`#commonColumn_${fileId}`);
-                const selectedCommonColumn = commonColumnSelect.value;
-
-                if (selectedCommonColumn) {
-                    commonColumnValues.add(selectedCommonColumn.toLowerCase());
-                } else {
-                    allSelected = false;
-                }
-            });
-
-            if (!allSelected) {
-                validationError.textContent = 'Please select a common column for all files.';
-                validationError.style.display = 'block';
-                return false;
-            }
-
-            if (commonColumnValues.size > 1) {
-                validationError.textContent = 'All selected common columns must be the same.';
-                validationError.style.display = 'block';
-                return false;
-            } else {
-                validationError.style.display = 'none';
-                return true;
-            }
-        }
-
-        // Function to select default values if available
-        function selectDefaultColumns(fileDiv, isFirstFile = false) {
-            const fileId = fileDiv.querySelector('input[name="fileIds[]"]').value;
-
-            // Set the default common column (UPC) if it exists
-            const commonColumnSelect = fileDiv.querySelector(`#commonColumn_${fileId}`);
-            const commonColumnOptions = Array.from(commonColumnSelect.options);
-            const upcOption = commonColumnOptions.find(option => option.value.toLowerCase() === 'upc');
-            let selectedCommonColumnValue = null;
-
-            if (upcOption) {
-                commonColumnSelect.value = upcOption.value; // Set UPC as the default selection
-                selectedCommonColumnValue = upcOption.value;
-                hideSelectedCommonColumn(fileDiv, selectedCommonColumnValue); // Hide UPC from file columns
-            }
-
-            // Set all columns as selected for the first file, excluding the common column
-            const fileColumnsSelect = fileDiv.querySelector(`#fileColumns_${fileId}`);
-            const fileColumnOptions = Array.from(fileColumnsSelect.options);
-
-            if (isFirstFile) {
-                fileColumnOptions.forEach(option => {
-                    if (option.value !== selectedCommonColumnValue) {
-                        option.selected = true; // Select all except the common column
-                    }
-                });
-            } else {
-                // Set the default file column (Price) if it exists
-                const priceOption = fileColumnOptions.find(option => option.value.toLowerCase() === 'price');
-                if (priceOption) {
-                    priceOption.selected = true; // Select Price by default for non-first files
-                }
-            }
-        }
-
-        // Function to hide selected common column from file-specific columns
-        function hideSelectedCommonColumn(fileDiv, commonColumn) {
-            const fileId = fileDiv.querySelector('input[name="fileIds[]"]').value;
-            const fileColumnsSelect = fileDiv.querySelector(`#fileColumns_${fileId}`);
-            Array.from(fileColumnsSelect.options).forEach(option => {
-                if (option.value === commonColumn) {
-                    option.style.display = 'none'; // Hide the selected common column
-                } else {
-                    option.style.display = ''; // Show other columns
-                }
-            });
-        }
-
-        form.addEventListener('submit', (event) => {
-            if (!validateForm()) {
-                event.preventDefault(); // Prevent form submission if validation fails
-            }
-        });
-
-        fileDropdowns.forEach((fileDiv, index) => {
-            const fileId = fileDiv.querySelector('input[name="fileIds[]"]').value;
-            const commonColumnSelect = fileDiv.querySelector(`#commonColumn_${fileId}`);
-
-            // Automatically select default columns when the page loads
-            selectDefaultColumns(fileDiv, index === 0); // Pass true if it's the first file
-
-            commonColumnSelect.addEventListener('change', () => {
-                const selectedCommonColumn = commonColumnSelect.value;
-
-                // Update file columns dropdown to exclude the selected common column
-                hideSelectedCommonColumn(fileDiv, selectedCommonColumn);
-
-                // Validate form whenever a common column is selected
-                validateForm();
-            });
-        });
-    });
 
     document.getElementById('select-all').addEventListener('click', function(event) {
         const checkboxes = document.querySelectorAll('.file-checkbox');
