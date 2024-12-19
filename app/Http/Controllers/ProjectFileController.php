@@ -198,6 +198,7 @@ class ProjectFileController extends Controller
 
     public function syncAll(Request $request, Project $project)
     {
+        $start = microtime(true);
         Log::debug('Starting syncAll function');
         
         // Validate the request
@@ -280,6 +281,10 @@ class ProjectFileController extends Controller
                 ]);
 
                 Log::info('File synchronized successfully', ['finalFilePath' => $finalFilePath]);
+                $end = microtime(true); // End time
+                $executionTime = $end - $start; // Calculate the execution time
+
+                Log::info('Execution time of syncAll Function: ' . $executionTime . ' seconds');
 
                 return redirect()->route('projects.show', ['project' => $project->id, 'type' => 'results'])
                     ->with('success', 'All files synchronized successfully.');
