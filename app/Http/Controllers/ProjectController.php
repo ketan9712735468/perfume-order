@@ -68,10 +68,10 @@ class ProjectController extends Controller
         }
     
         // Fetch all project files
-        $files = $project->files()->where('enabled', true)->get();
+        $files = $project->files()->orderBy('id', 'asc')->get();
         $fileDetails = [];
         // Render the project view
-        return view('projects.show', compact('project', 'fileDetails'));
+        return view('projects.show', compact('project', 'fileDetails', 'files'));
     }
 
     /**

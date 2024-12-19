@@ -191,7 +191,7 @@
                                                 @endforeach
 
                                                 {{-- For Project File only --}}
-                                                @foreach($project->files as $file)
+                                                @foreach($files as $file)
                                                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                                                     <td class="py-4 px-6">
                                                         <input type="checkbox" name="file_ids[]" value="{{ $file->id }}" class="file-checkbox">
