@@ -185,6 +185,18 @@ class ProjectFileController extends Controller
             $spreadsheet = IOFactory::load($filePath);
             $worksheet = $spreadsheet->getActiveSheet();
             $data = $worksheet->toArray();
+
+            // Filter out null or empty headers
+            $headers = array_filter($data[0], function ($header) {
+                return !is_null($header) && trim($header) !== '';
+            });
+
+            Log::info('Valid Headers:', ['headers' => $headers]);
+
+            // Remove columns with null headers from all rows
+            foreach ($data as &$row) {
+                $row = array_intersect_key($row, $headers);
+            }
         } catch (\Exception $e) {
             // Handle the exception if the file cannot be read
             return response()->json(['error' => 'Unable to read the file.'], 500);

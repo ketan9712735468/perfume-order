@@ -18,5 +18,5 @@
         </tbody>
     </table>
 @else
-    <p>No data available.</p>
+    <p>No data available or invalid data.</p>
 @endif
