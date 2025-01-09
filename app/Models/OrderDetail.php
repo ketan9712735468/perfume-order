@@ -11,7 +11,7 @@ class OrderDetail extends Model
 
     protected $fillable = [
         'branch_id',
-        'employee_id',
+        'employee',
         'email_date',
         'response_date',
         'vendor_id',
@@ -47,10 +47,6 @@ class OrderDetail extends Model
 
     public function branch() {
         return $this->belongsTo(Branch::class);
-    }
-    
-    public function employee() {
-        return $this->belongsTo(Employee::class);
     }
     
     public function vendor() {

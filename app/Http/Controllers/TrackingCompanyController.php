@@ -9,7 +9,7 @@ class TrackingCompanyController extends Controller
 {
     public function index()
     {
-        $tracking_companies = TrackingCompany::all();
+        $tracking_companies = TrackingCompany::orderBy('id', 'asc')->get();
         return view('tracking_companies.index', compact('tracking_companies'));
     }
 

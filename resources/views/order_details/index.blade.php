@@ -109,21 +109,15 @@
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=employee_id&order={{ request('sort_by') == 'employee_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
+                                            <a href="?sort_by=employee&order={{ request('sort_by') == 'employee' && request('order') == 'asc' ? 'desc' : 'asc' }}">
                                                 Emp. Name
-                                                @if(request('sort_by') == 'employee_id') &#8593; @endif
+                                                @if(request('sort_by') == 'employee') &#8593; @endif
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
                                             <a href="?sort_by=email_date&order={{ request('sort_by') == 'email_date' && request('order') == 'asc' ? 'desc' : 'asc' }}">
                                                 Email Date
                                                 @if(request('sort_by') == 'email_date') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=response_date&order={{ request('sort_by') == 'response_date' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                Response Date
-                                                @if(request('sort_by') == 'response_date') &#8593; @endif
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
@@ -181,27 +175,9 @@
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=sb&order={{ request('sort_by') == 'sb' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                SB
-                                                @if(request('sort_by') == 'sb') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=rb&order={{ request('sort_by') == 'rb' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                RB
-                                                @if(request('sort_by') == 'rb') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
                                             <a href="?sort_by=units&order={{ request('sort_by') == 'units' && request('order') == 'asc' ? 'desc' : 'asc' }}">
                                                 Units
                                                 @if(request('sort_by') == 'units') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=received&order={{ request('sort_by') == 'received' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                Received
-                                                @if(request('sort_by') == 'received') &#8593; @endif
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
@@ -217,15 +193,6 @@
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=tracking_number&order={{ request('sort_by') == 'tracking_number' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                Tracking Number
-                                                @if(request('sort_by') == 'tracking_number') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
-                                            Note
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
                                             <a href="?sort_by=stock_control_status_id&order={{ request('sort_by') == 'stock_control_status_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
                                                 Stock Control Status
                                                 @if(request('sort_by') == 'stock_control_status_id') &#8593; @endif
@@ -237,7 +204,6 @@
                                                 @if(request('sort_by') == 'order_number') &#8593; @endif
                                             </a>
                                         </th>
-                                        <th class="py-3 px-6 text-left">Link</th>
                                         <th class="py-4 px-6 align-start text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -246,15 +212,15 @@
                                     <tr class="border-b border-gray-200 hover:bg-gray-100 
                                         @if(optional($orderDetail->stock_control_status)->name === 'Cancelled') bg-red-100 text-red-700 
                                         @elseif(optional($orderDetail->stock_control_status)->name === 'Received') bg-green-100 text-green-700 
-                                        @endif">
+                                        @endif"
+                                        onclick="window.location.href='{{ route('order_details.edit', $orderDetail) }}'">
                                             <td class="py-3 px-6 text-left">
                                                 <input type="checkbox" name="selected_orders[]" value="{{ $orderDetail->id }}" class="select-row">
                                             </td>
                                             <td class="py-3 px-6 text-left">{{ $loop->iteration }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->branch->name }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->employee->name }}</td>
+                                            <td class="py-3 px-6 text-left">{{ $orderDetail->employee }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->email_date ? $orderDetail->email_date->format('m/d/Y') : '' }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->response_date ? $orderDetail->response_date->format('m/d/Y'): '' }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->vendor->name }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->type->name }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->sales_order }}</td>
@@ -264,23 +230,11 @@
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->paid_date ? $orderDetail->paid_date->format('m/d/Y') : ''}}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->paid_amount }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->variants }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->sb }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->rb }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->units }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->received }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->delivery_date ? $orderDetail->delivery_date->format('m/d/Y') : '' }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->trackingCompany?->name ?? '' }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->tracking_number }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->note }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->stock_control_status->name ?? '' }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->order_number }}</td>
-                                            <td class="py-3 px-6 text-left">
-                                                @if($orderDetail->link)
-                                                    <a href="{{ $orderDetail->link }}" target="_blank">Click</a>
-                                                @else
-                                                    {{ '' }}
-                                                @endif
-                                            </td>
                                             <td class="py-4 px-6 align-start text-center">
                                                 <div class="inline-flex items-center space-x-4">
                                                 @if($orderDetail->trackingCompany && $orderDetail->trackingCompany->link && $orderDetail->tracking_number)

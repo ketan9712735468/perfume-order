@@ -16,6 +16,10 @@
                                     <thead>
                                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                             <th class="py-3 px-6 text-left">Name</th>
+                                            <th class="py-3 px-6 text-left">Persone Name</th>
+                                            <th class="py-3 px-6 text-left">Person Email</th>
+                                            <th class="py-3 px-6 text-left">Address</th>
+                                            <th class="py-3 px-6 text-left">Number</th>
                                             <th class="py-3 px-6 text-left">Slug</th>
                                             <th class="py-3 px-6 text-left">Description</th>
                                             <th class="py-3 px-6 text-left">Active</th>
@@ -27,6 +31,18 @@
                                             <tr class="border-b border-gray-200 hover:bg-gray-100">
                                                 <td class="py-3 px-6 text-left">
                                                     <span>{{ $vendor->name }}</span>
+                                                </td>
+                                                <td class="py-3 px-6 text-left">
+                                                    <span>{{ $vendor->person_name }}</span>
+                                                </td>
+                                                <td class="py-3 px-6 text-left">
+                                                    <span>{{ $vendor->person_email }}</span>
+                                                </td>
+                                                <td class="py-3 px-6 text-left">
+                                                    <span>{{ $vendor->address }}</span>
+                                                </td>
+                                                <td class="py-3 px-6 text-left">
+                                                    <span>{{ $vendor->number }}</span>
                                                 </td>
                                                 <td class="py-3 px-6 text-left">
                                                     <span>{{ $vendor->slug }}</span>

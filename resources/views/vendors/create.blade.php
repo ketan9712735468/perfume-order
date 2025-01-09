@@ -16,6 +16,22 @@
                                         <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                     </div>
                                     <div class="mb-6">
+                                        <label for="person_name" class="block text-sm font-medium text-gray-700 mb-2">{{ __('Person Name') }}</label>
+                                        <input type="text" id="person_name" name="person_name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                    </div>
+                                    <div class="mb-6">
+                                        <label for="person_email" class="block text-sm font-medium text-gray-700 mb-2">{{ __('Person Email') }}</label>
+                                        <input type="email" id="person_email" name="person_email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                    </div>
+                                    <div class="mb-6">
+                                        <label for="address" class="block text-sm font-medium text-gray-700 mb-2">{{ __('Address') }}</label>
+                                        <input type="text" id="address" name="address" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                    </div>
+                                    <div class="mb-6">
+                                        <label for="number" class="block text-sm font-medium text-gray-700 mb-2">{{ __('Number') }}</label>
+                                        <input type="number" id="number" name="number" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                    </div>
+                                    <div class="mb-6">
                                         <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">{{ __('Slug') }}</label>
                                         <input type="text" id="slug" name="slug" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                     </div>

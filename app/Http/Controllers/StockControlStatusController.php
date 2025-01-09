@@ -9,7 +9,7 @@ class StockControlStatusController extends Controller
 {
     public function index()
     {
-        $stock_control_statuses = StockControlStatus::all();
+        $stock_control_statuses = StockControlStatus::orderBy('id', 'asc')->get();
         return view('stock_control_statuses.index', compact('stock_control_statuses'));
     }
 

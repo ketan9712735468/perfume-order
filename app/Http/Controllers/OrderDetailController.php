@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderDetail;
 use App\Models\Branch;
-use App\Models\Employee;
 use App\Models\Vendor;
 use App\Models\Type;
 use App\Models\TrackingCompany;
@@ -19,14 +18,13 @@ class OrderDetailController extends Controller
     {
         // Fetch related data for filters
         $branches = Branch::all();
-        $employees = Employee::all();
         $vendors = Vendor::all();
         $types = Type::all();
         $trackingCompanies = TrackingCompany::all();
         $stockControlStatuses = StockControlStatus::all();
 
         // Fetch order details with relationships
-        $orderDetails = OrderDetail::with(['branch', 'employee', 'vendor', 'type', 'trackingCompany', 'stock_control_status'])->where('current', 0);
+        $orderDetails = OrderDetail::with(['branch', 'vendor', 'type', 'trackingCompany', 'stock_control_status'])->where('current', 0);
 
         // Apply sorting if `sort_by` is present in the request
         if ($request->filled('sort_by') && $request->filled('order')) {
@@ -39,9 +37,6 @@ class OrderDetailController extends Controller
         // Apply filtering logic (same as before)
         if ($request->filled('branch_id')) {
             $orderDetails->whereIn('branch_id', $request->branch_id);
-        }
-        if ($request->filled('employee_id')) {
-            $orderDetails->whereIn('employee_id', $request->employee_id);
         }
         if ($request->filled('vendor_id')) {
             $orderDetails->whereIn('vendor_id', $request->vendor_id);
@@ -83,20 +78,19 @@ class OrderDetailController extends Controller
         // Paginate the results
         $orderDetails = $orderDetails->paginate(100);
 
-        return view('order_details.index', compact('orderDetails', 'branches', 'employees', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
+        return view('order_details.index', compact('orderDetails', 'branches', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
     }
     
 
     public function create()
     {
         $branches = Branch::where('enabled', true)->get();
-        $employees = Employee::where('enabled', true)->get();
         $vendors = Vendor::where('enabled', true)->get();
         $types = Type::where('enabled', true)->get();
         $trackingCompanies = TrackingCompany::where('enabled', true)->get();
         $stockControlStatuses = StockControlStatus::where('enabled', true)->get();
 
-        return view('order_details.create', compact('branches', 'employees', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
+        return view('order_details.create', compact('branches', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
     }
 
 
@@ -105,7 +99,6 @@ class OrderDetailController extends Controller
         // Validate the incoming request data
         $validated = $request->validate([
             'branch_id' => 'required',
-            'employee_id' => 'required',
             'email_date' => 'required|date',
             'response_date' => 'required|date',
             'vendor_id' => 'required',
@@ -134,6 +127,7 @@ class OrderDetailController extends Controller
         $orderDetail = new OrderDetail($validated);
         // Set created_by and updated_by to the currently authenticated user
         $orderDetail->created_by = Auth::id();
+        $orderDetail->employee = Auth::user()->name;
         $orderDetail->save();
 
         // Redirect back with a success message
@@ -154,20 +148,18 @@ class OrderDetailController extends Controller
         $orderDetail->delivery_date = \Carbon\Carbon::parse($orderDetail->delivery_date);
 
         $branches = Branch::where('enabled', true)->get();
-        $employees = Employee::where('enabled', true)->get();
         $vendors = Vendor::where('enabled', true)->get();
         $types = Type::where('enabled', true)->get();
         $trackingCompanies = TrackingCompany::where('enabled', true)->get();
         $stockControlStatuses = StockControlStatus::where('enabled', true)->get();
 
-        return view('order_details.edit', compact('orderDetail', 'branches', 'employees', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
+        return view('order_details.edit', compact('orderDetail', 'branches', 'vendors', 'types', 'trackingCompanies', 'stockControlStatuses'));
     }
 
     public function update(Request $request, OrderDetail $orderDetail)
     {
         $validated = $request->validate([
             'branch_id' => 'required',
-            'employee_id' => 'required',
             'email_date' => 'required|date',
             'response_date' => 'required|date',
             'vendor_id' => 'required',
@@ -195,6 +187,7 @@ class OrderDetailController extends Controller
 
             $orderDetail->current = 1; // Set old record to not current
             $orderDetail->updated_by = Auth::id();
+            $orderDetail->employee = Auth::user()->name;
             $orderDetail->save(); // Save the updated record
 
             // Create a new record with the same details but marked as current
@@ -202,6 +195,7 @@ class OrderDetailController extends Controller
             $newOrderDetail->current = 0; // New record is current
             $newOrderDetail->created_by = Auth::id();
             $newOrderDetail->updated_by = Auth::id();
+            $newOrderDetail->employee = Auth::user()->name;
             $newOrderDetail->save();
 
             // Redirect with success message

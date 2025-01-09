@@ -9,7 +9,7 @@ class TypeController extends Controller
 {
     public function index()
     {
-        $types = Type::all();
+        $types = Type::orderBy('id', 'asc')->get();
         return view('types.index', compact('types'));
     }
 

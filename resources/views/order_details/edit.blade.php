@@ -49,14 +49,9 @@
 
                                             <!-- Employee Name Dropdown -->
                                             <div>
-                                                <label for="employee_id" class="block text-gray-700">Employee Name</label>
-                                                <select id="employee_id" name="employee_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
-                                                    <option value="">Select Employee</option>
-                                                    @foreach($employees as $employee)
-                                                        <option value="{{ $employee->id }}" {{ old('employee_id', $orderDetail->employee_id) == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('employee_id')
+                                                <label for="employee" class="block text-gray-700">Employee Name</label>
+                                                <input type="text" id="employee" name="employee" value="{{ auth()->user()->name }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" disabled>
+                                                @error('employee')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -152,7 +147,7 @@
                                             <!-- Paid Date -->
                                             <div>
                                                 <label for="paid_date" class="block text-gray-700">Paid Date</label>
-                                                <input type="date" id="paid_date" name="paid_date" value="{{ old('paid_date', $orderDetail->paid_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="date" id="paid_date" name="paid_date" value="{{ old('paid_date', $orderDetail->paid_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('paid_date')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -161,7 +156,7 @@
                                             <!-- Paid Amount -->
                                             <div>
                                                 <label for="paid_amount" class="block text-gray-700">Paid Amount</label>
-                                                <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ old('paid_amount', $orderDetail->paid_amount) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ old('paid_amount', $orderDetail->paid_amount) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('paid_amount')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -181,7 +176,7 @@
                                             <!-- SB -->
                                             <div>
                                                 <label for="sb" class="block text-gray-700">SB</label>
-                                                <input type="text" id="sb" name="sb" value="{{ old('sb', $orderDetail->sb) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="text" id="sb" name="sb" value="{{ old('sb', $orderDetail->sb) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('sb')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -190,7 +185,7 @@
                                             <!-- RB -->
                                             <div>
                                                 <label for="rb" class="block text-gray-700">RB</label>
-                                                <input type="text" id="rb" name="rb" value="{{ old('rb', $orderDetail->rb) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="text" id="rb" name="rb" value="{{ old('rb', $orderDetail->rb) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('rb')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -210,7 +205,7 @@
                                             <!-- Received -->
                                             <div>
                                                 <label for="received" class="block text-gray-700">Received</label>
-                                                <input type="number" id="received" name="received" value="{{ old('received', $orderDetail->received) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="number" id="received" name="received" value="{{ old('received', $orderDetail->received) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('received')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -219,7 +214,7 @@
                                             <!-- Delivery Date -->
                                             <div>
                                                 <label for="delivery_date" class="block text-gray-700">Delivery Date</label>
-                                                <input type="date" id="delivery_date" name="delivery_date" value="{{ old('delivery_date', $orderDetail->delivery_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="date" id="delivery_date" name="delivery_date" value="{{ old('delivery_date', $orderDetail->delivery_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('delivery_date')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
