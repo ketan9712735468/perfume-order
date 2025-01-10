@@ -180,8 +180,7 @@
                                     <tr class="border-b border-gray-200 hover:bg-gray-100 
                                         @if(optional($orderDetail->stock_control_status)->name === 'Cancelled') bg-red-100 text-red-700 
                                         @elseif(optional($orderDetail->stock_control_status)->name === 'Received') bg-green-100 text-green-700 
-                                        @endif"
-                                        onclick="window.location.href='{{ route('order_details.edit', $orderDetail) }}'">
+                                        @endif">
                                             <td class="py-3 px-6 text-left">
                                                 <input type="checkbox" name="selected_orders[]" value="{{ $orderDetail->id }}" class="select-row">
                                             </td>
