@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 class OrderDetailController extends Controller
 {
     public function index(Request $request)
@@ -225,6 +229,107 @@ class OrderDetailController extends Controller
         }
 
         return redirect()->back()->with('error', 'No orders selected for deletion.');
+    }
+
+    public function download(Request $request)
+    {
+        // Fetch the filters from the request
+        $filters = $request->all();
+
+        // Apply filters to get the data
+        $query = OrderDetail::with(['branch', 'vendor', 'type', 'trackingCompany', 'stock_control_status'])->where('current', 0);
+
+        if (!empty($filters['search'])) {
+            $query->where('sales_order', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('invoice_number', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('freight', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('units', 'like', '%' . $filters['search'] . '%');
+        }
+
+        if (!empty($filters['branch_id'])) {
+            $query->whereIn('branch_id', $filters['branch_id']);
+        }
+
+        if (!empty($filters['vendor_id'])) {
+            $query->whereIn('vendor_id', $filters['vendor_id']);
+        }
+
+        if (!empty($filters['stock_control_status_id'])) {
+            $query->whereIn('stock_control_status_id', $filters['stock_control_status_id']);
+        }
+
+        if (!empty($filters['email_date_start']) && !empty($filters['email_date_end'])) {
+            $query->whereBetween('email_date', [$filters['email_date_start'], $filters['email_date_end']]);
+        }
+
+        $data = $query->get([
+            'branch_id', 'employee', 'email_date', 'response_date', 'vendor_id', 
+            'type_id', 'sales_order', 'invoice_number', 'freight', 'total_amount',
+            'paid_date', 'paid_amount', 'variants', 'sb', 'rb', 'units', 
+            'received', 'delivery_date', 'tracking_company_id', 'tracking_number', 
+            'note', 'stock_control_status_id', 'order_number', 'link', 
+        ]);
+
+        // Create a new Spreadsheet object
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Add headers
+        $headers = [
+            'Branch', 'Employee', 'Email Date', 'Response Date', 'Vendor ID', 
+            'Type ID', 'Sales Order', 'Invoice Number', 'Freight', 'Total Amount',
+            'Paid Date', 'Paid Amount', 'Variants', 'SB', 'RB', 'Units', 
+            'Received', 'Delivery Date', 'Tracking Company ID', 'Tracking Number', 
+            'Note', 'Stock Control Status ID', 'Order Number', 'Link', 
+        ];
+
+        $sheet->fromArray($headers, null, 'A1');
+
+        // Add data rows
+        $rowIndex = 2; // Start from the second row
+        foreach ($data as $row) {
+            $sheet->fromArray([
+                $row->branch ? $row->branch->name : null,
+                $row->employee,
+                $row->email_date ? \Carbon\Carbon::parse($row->email_date)->format('Y-m-d') : null,
+                $row->response_date ? \Carbon\Carbon::parse($row->response_date)->format('Y-m-d') : null,
+                $row->vendor ? $row->vendor->name : null,
+                $row->type ? $row->type->name : null,
+                $row->sales_order,
+                $row->invoice_number,
+                $row->freight,
+                $row->total_amount,
+                $row->paid_date ? \Carbon\Carbon::parse($row->paid_date)->format('Y-m-d') : null,
+                $row->paid_amount,
+                $row->variants,
+                $row->sb,
+                $row->rb,
+                $row->units,
+                $row->received,
+                $row->delivery_date ? \Carbon\Carbon::parse($row->delivery_date)->format('Y-m-d') : null,
+                $row->tracking_company ? $row->tracking_company->name : null,
+                $row->tracking_number,
+                $row->note,
+                $row->stock_control_status ? $row->stock_control_status->name : null,
+                $row->order_number,
+                $row->link,
+            ], null, 'A' . $rowIndex);
+
+            $rowIndex++;
+        }
+
+        // Set file name
+        $fileName = 'order_details.xlsx';
+
+        // Set headers for the response
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment; filename=\"{$fileName}\"");
+        header('Cache-Control: max-age=0');
+
+        // Save the file to output
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 
 }

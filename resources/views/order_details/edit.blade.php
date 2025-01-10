@@ -39,7 +39,7 @@
                                                 <select id="branch_id" name="branch_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                                     <option value="">Select Branch</option>
                                                     @foreach($branches as $branch)
-                                                        <option value="{{ $branch->id }}" {{ old('branch_id', $orderDetail->branch_id) == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                                                        <option value="{{ $branch->id }}" {{$orderDetail->branch_id == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('branch_id')
@@ -59,7 +59,7 @@
                                             <!-- Email Date -->
                                             <div>
                                                 <label for="email_date" class="block text-gray-700">Email Date</label>
-                                                <input type="date" id="email_date" name="email_date" value="{{ old('email_date', $orderDetail->email_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="date" id="email_date" name="email_date" value="{{ $orderDetail->email_date->format('Y-m-d') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                                 @error('email_date')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -70,7 +70,7 @@
                                             <!-- Response Date -->
                                             <div>
                                                 <label for="response_date" class="block text-gray-700">Response Date</label>
-                                                <input type="date" id="response_date" name="response_date" value="{{ old('response_date', $orderDetail->response_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="date" id="response_date" name="response_date" value="{{ $orderDetail->response_date->format('Y-m-d') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                                 @error('response_date')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -82,7 +82,7 @@
                                                 <select id="vendor_id" name="vendor_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                                     <option value="">Select Vendor</option>
                                                     @foreach($vendors as $vendor)
-                                                        <option value="{{ $vendor->id }}" {{ old('vendor_id', $orderDetail->vendor_id) == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
+                                                        <option value="{{ $vendor->id }}" {{$orderDetail->vendor_id == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('vendor_id')
@@ -96,7 +96,7 @@
                                                 <select id="type_id" name="type_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                                     <option value="">Select Type</option>
                                                     @foreach($types as $type)
-                                                        <option value="{{ $type->id }}" {{ old('type_id', $orderDetail->type_id) == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                                        <option value="{{ $type->id }}" {{$orderDetail->type_id == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('type_id')
@@ -109,7 +109,7 @@
                                             <!-- Sales Order -->
                                             <div>
                                                 <label for="sales_order" class="block text-gray-700">Sales Order</label>
-                                                <input type="text" id="sales_order" name="sales_order" value="{{ old('sales_order', $orderDetail->sales_order) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="text" id="sales_order" name="sales_order" value="{{ $orderDetail->sales_order }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('sales_order')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -118,7 +118,7 @@
                                             <!-- Invoice Number -->
                                             <div>
                                                 <label for="invoice_number" class="block text-gray-700">Invoice Number</label>
-                                                <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number', $orderDetail->invoice_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="text" id="invoice_number" name="invoice_number" value="{{ $orderDetail->invoice_number }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('invoice_number')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -127,7 +127,7 @@
                                             <!-- Freight -->
                                             <div>
                                                 <label for="freight" class="block text-gray-700">Freight</label>
-                                                <input type="number" step="0.01" id="freight" name="freight" value="{{ old('freight', $orderDetail->freight) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="number" step="0.01" id="freight" name="freight" value="{{ $orderDetail->freight }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('freight')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -138,7 +138,7 @@
                                             <!-- Total Amount -->
                                             <div>
                                                 <label for="total_amount" class="block text-gray-700">Total Amount</label>
-                                                <input type="number" step="0.01" id="total_amount" name="total_amount" value="{{ old('total_amount', $orderDetail->total_amount) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="number" step="0.01" id="total_amount" name="total_amount" value="{{ $orderDetail->total_amount }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                                 @error('total_amount')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -147,7 +147,7 @@
                                             <!-- Paid Date -->
                                             <div>
                                                 <label for="paid_date" class="block text-gray-700">Paid Date</label>
-                                                <input type="date" id="paid_date" name="paid_date" value="{{ old('paid_date', $orderDetail->paid_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="date" id="paid_date" name="paid_date" value="{{ $orderDetail->paid_date->format('Y-m-d') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('paid_date')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -156,7 +156,7 @@
                                             <!-- Paid Amount -->
                                             <div>
                                                 <label for="paid_amount" class="block text-gray-700">Paid Amount</label>
-                                                <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ old('paid_amount', $orderDetail->paid_amount) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="number" step="0.01" id="paid_amount" name="paid_amount" value="{{ $orderDetail->paid_amount }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('paid_amount')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -167,7 +167,7 @@
                                             <!-- Variants -->
                                             <div>
                                                 <label for="variants" class="block text-gray-700">Variants</label>
-                                                <input type="text" id="variants" name="variants" value="{{ old('variants', $orderDetail->variants) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="text" id="variants" name="variants" value="{{ $orderDetail->variants }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                                 @error('variants')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -176,7 +176,7 @@
                                             <!-- SB -->
                                             <div>
                                                 <label for="sb" class="block text-gray-700">SB</label>
-                                                <input type="text" id="sb" name="sb" value="{{ old('sb', $orderDetail->sb) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="text" id="sb" name="sb" value="{{ $orderDetail->sb }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('sb')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -185,7 +185,7 @@
                                             <!-- RB -->
                                             <div>
                                                 <label for="rb" class="block text-gray-700">RB</label>
-                                                <input type="text" id="rb" name="rb" value="{{ old('rb', $orderDetail->rb) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="text" id="rb" name="rb" value="{{ $orderDetail->rb }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('rb')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -196,7 +196,7 @@
                                             <!-- Units -->
                                             <div>
                                                 <label for="units" class="block text-gray-700">Units</label>
-                                                <input type="number" id="units" name="units" value="{{ old('units', $orderDetail->units) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                                <input type="number" id="units" name="units" value="{{ $orderDetail->units }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
                                                 @error('units')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -205,7 +205,7 @@
                                             <!-- Received -->
                                             <div>
                                                 <label for="received" class="block text-gray-700">Received</label>
-                                                <input type="number" id="received" name="received" value="{{ old('received', $orderDetail->received) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="number" id="received" name="received" value="{{ $orderDetail->received }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('received')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -214,7 +214,7 @@
                                             <!-- Delivery Date -->
                                             <div>
                                                 <label for="delivery_date" class="block text-gray-700">Delivery Date</label>
-                                                <input type="date" id="delivery_date" name="delivery_date" value="{{ old('delivery_date', $orderDetail->delivery_date->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="date" id="delivery_date" name="delivery_date" value="{{ $orderDetail->delivery_date->format('Y-m-d') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('delivery_date')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -228,7 +228,7 @@
                                                 <select id="tracking_company_id" name="tracking_company_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                     <option value="">Select Tracking Company</option>
                                                     @foreach($trackingCompanies as $company)
-                                                        <option value="{{ $company->id }}" {{ old('tracking_company_id', $orderDetail->tracking_company_id) == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                                                        <option value="{{ $company->id }}" {{ $orderDetail->tracking_company_id == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('tracking_company_id')
@@ -239,7 +239,7 @@
                                             <!-- Tracking Number -->
                                             <div>
                                                 <label for="tracking_number" class="block text-gray-700">Tracking Number</label>
-                                                <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number', $orderDetail->tracking_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="text" id="tracking_number" name="tracking_number" value="{{ $orderDetail->tracking_number }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('tracking_number')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -248,7 +248,7 @@
                                             <!-- Order Number -->
                                             <div>
                                                 <label for="order_number" class="block text-gray-700">Order Number</label>
-                                                <input type="text" id="order_number" name="order_number" value="{{ old('order_number', $orderDetail->order_number) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="text" id="order_number" name="order_number" value="{{ $orderDetail->order_number }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('order_number')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -262,7 +262,7 @@
                                                 <select id="stock_control_status_id" name="stock_control_status_id" class="select-dropdown w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                     <option value="">Select Status</option>
                                                     @foreach($stockControlStatuses as $status)
-                                                        <option value="{{ $status->id }}" {{ old('stock_control_status_id', $orderDetail->stock_control_status_id) == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                                                        <option value="{{ $status->id }}" {{ $orderDetail->stock_control_status_id == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('stock_control_status_id')
@@ -272,7 +272,7 @@
                                             <!-- Link -->
                                             <div>
                                                 <label for="link" class="block text-gray-700">Link</label>
-                                                <input type="text" id="link" name="link" value="{{ old('link', $orderDetail->link) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="text" id="link" name="link" value="{{ $orderDetail->link }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('link')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -280,7 +280,7 @@
                                             <!-- Note -->
                                             <div>
                                                 <label for="note" class="block text-gray-700">Note</label>
-                                                <textarea id="note" name="note" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ old('note', $orderDetail->note) }}</textarea>
+                                                <textarea id="note" name="note" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">{{ $orderDetail->note }}</textarea>
                                                 @error('note')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror

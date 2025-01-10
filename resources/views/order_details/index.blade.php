@@ -14,6 +14,10 @@
                             <a href="{{ route('order_details.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
                                 Create Order Detail
                             </a>
+                            <a href="{{ route('order_details.download') }}{{ request()->getQueryString() ? '?' . request()->getQueryString() : '' }}" 
+                                class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                Download
+                            </a>
                             <button type="button" onclick="confirmDelete()" class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
                                 Delete Selected
                             </button>
@@ -33,12 +37,6 @@
                             <select class="js-example-basic-multiple border rounded-md w-1/4" name="vendor_id[]" multiple="multiple" id="vendor-select">
                                 @foreach ($vendors as $vendor)
                                     <option value="{{ $vendor->id }}" {{ is_array(request('vendor_id')) && in_array($vendor->id, request('vendor_id')) ? 'selected' : '' }}>{{ $vendor->name }}</option>
-                                @endforeach
-                            </select>
-
-                            <select class="js-example-basic-multiple border rounded-md w-1/4" name="type_id[]" multiple="multiple" id="type-select">
-                                @foreach ($types as $type)
-                                    <option value="{{ $type->id }}" {{ is_array(request('type_id')) && in_array($type->id, request('type_id')) ? 'selected' : '' }}>{{ $type->name }}</option>
                                 @endforeach
                             </select>
 
@@ -127,12 +125,6 @@
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=type_id&order={{ request('sort_by') == 'type_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                Type
-                                                @if(request('sort_by') == 'type_id') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
                                             <a href="?sort_by=sales_order&order={{ request('sort_by') == 'sales_order' && request('order') == 'asc' ? 'desc' : 'asc' }}">
                                                 Sales Order
                                                 @if(request('sort_by') == 'sales_order') &#8593; @endif
@@ -169,39 +161,15 @@
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=variants&order={{ request('sort_by') == 'variants' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                Variants
-                                                @if(request('sort_by') == 'variants') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
                                             <a href="?sort_by=units&order={{ request('sort_by') == 'units' && request('order') == 'asc' ? 'desc' : 'asc' }}">
                                                 Units
                                                 @if(request('sort_by') == 'units') &#8593; @endif
                                             </a>
                                         </th>
                                         <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=delivery_date&order={{ request('sort_by') == 'delivery_date' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                Delivery Date
-                                                @if(request('sort_by') == 'delivery_date') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=tracking_company_id&order={{ request('sort_by') == 'tracking_company_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                Tracking Company
-                                                @if(request('sort_by') == 'tracking_company_id') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
                                             <a href="?sort_by=stock_control_status_id&order={{ request('sort_by') == 'stock_control_status_id' && request('order') == 'asc' ? 'desc' : 'asc' }}">
                                                 Stock Control Status
                                                 @if(request('sort_by') == 'stock_control_status_id') &#8593; @endif
-                                            </a>
-                                        </th>
-                                        <th class="py-3 px-6 text-left">
-                                            <a href="?sort_by=order_number&order={{ request('sort_by') == 'order_number' && request('order') == 'asc' ? 'desc' : 'asc' }}">
-                                                Order Number
-                                                @if(request('sort_by') == 'order_number') &#8593; @endif
                                             </a>
                                         </th>
                                         <th class="py-4 px-6 align-start text-center">Actions</th>
@@ -222,19 +190,14 @@
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->employee }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->email_date ? $orderDetail->email_date->format('m/d/Y') : '' }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->vendor->name }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->type->name }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->sales_order }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->invoice_number }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->freight }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->total_amount }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->paid_date ? $orderDetail->paid_date->format('m/d/Y') : ''}}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->paid_amount }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->variants }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->units }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->delivery_date ? $orderDetail->delivery_date->format('m/d/Y') : '' }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->trackingCompany?->name ?? '' }}</td>
                                             <td class="py-3 px-6 text-left">{{ $orderDetail->stock_control_status->name ?? '' }}</td>
-                                            <td class="py-3 px-6 text-left">{{ $orderDetail->order_number }}</td>
                                             <td class="py-4 px-6 align-start text-center">
                                                 <div class="inline-flex items-center space-x-4">
                                                 @if($orderDetail->trackingCompany && $orderDetail->trackingCompany->link && $orderDetail->tracking_number)
@@ -305,10 +268,6 @@
         });
         $('#branch-select').select2({
             placeholder: 'Location',
-            allowClear: true
-        });
-        $('#type-select').select2({
-            placeholder: 'Sale Type',
             allowClear: true
         });
         $('#stock-control-status-select').select2({

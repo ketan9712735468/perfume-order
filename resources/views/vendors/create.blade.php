@@ -25,7 +25,7 @@
                                     </div>
                                     <div class="mb-6">
                                         <label for="address" class="block text-sm font-medium text-gray-700 mb-2">{{ __('Address') }}</label>
-                                        <input type="text" id="address" name="address" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                                        <textarea id="address" name="address" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>{{ old('note') }}</textarea>
                                     </div>
                                     <div class="mb-6">
                                         <label for="number" class="block text-sm font-medium text-gray-700 mb-2">{{ __('Number') }}</label>

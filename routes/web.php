@@ -40,8 +40,8 @@ Route::middleware([
     Route::resource('tracking_companies', TrackingCompanyController::class);
     Route::resource('stock_control_statuses', StockControlStatusController::class);
     Route::resource('order_details', OrderDetailController::class);
-    Route::post('/order-details/bulk-delete', [OrderDetailController::class, 'bulkDelete'])
-        ->name('order_details.bulk_delete');
+    Route::post('/order-details/bulk-delete', [OrderDetailController::class, 'bulkDelete'])->name('order_details.bulk_delete');
+    Route::get('/order-details/download', [OrderDetailController::class, 'download'])->name('order_details.download');
 });
 
 
