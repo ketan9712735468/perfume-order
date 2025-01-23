@@ -81,9 +81,6 @@ class ProjectInventoryController extends Controller
                 }
             }
     
-            // Log each row's data for verification
-            Log::debug("Row Data Parsed: ", $rowData);
-    
             // Add row to data if SKU and name are present
             if (!empty($rowData['product_sku']) && !empty($rowData['name'])) {
                 $data[] = $rowData;
