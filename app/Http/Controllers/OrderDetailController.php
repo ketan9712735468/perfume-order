@@ -146,10 +146,18 @@ class OrderDetailController extends Controller
 
     public function edit(OrderDetail $orderDetail)
     {
-        $orderDetail->email_date = \Carbon\Carbon::parse($orderDetail->email_date);
-        $orderDetail->response_date = \Carbon\Carbon::parse($orderDetail->response_date);
-        $orderDetail->paid_date = \Carbon\Carbon::parse($orderDetail->paid_date);
-        $orderDetail->delivery_date = \Carbon\Carbon::parse($orderDetail->delivery_date);
+        if ($orderDetail->paid_date) {
+            $orderDetail->paid_date = \Carbon\Carbon::parse($orderDetail->paid_date);
+        }
+        if ($orderDetail->email_date) {
+            $orderDetail->email_date = \Carbon\Carbon::parse($orderDetail->email_date);
+        }
+        if ($orderDetail->response_date) {
+            $orderDetail->response_date = \Carbon\Carbon::parse($orderDetail->response_date);
+        }
+        if ($orderDetail->delivery_date) {
+            $orderDetail->delivery_date = \Carbon\Carbon::parse($orderDetail->delivery_date);
+        }
 
         $branches = Branch::where('enabled', true)->get();
         $vendors = Vendor::where('enabled', true)->get();

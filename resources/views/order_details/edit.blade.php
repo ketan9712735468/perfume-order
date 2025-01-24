@@ -147,7 +147,7 @@
                                             <!-- Paid Date -->
                                             <div>
                                                 <label for="paid_date" class="block text-gray-700">Paid Date</label>
-                                                <input type="date" id="paid_date" name="paid_date" value="{{ $orderDetail->paid_date->format('Y-m-d') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="date" id="paid_date" name="paid_date" value="{{ $orderDetail->paid_date ? $orderDetail->paid_date->format('Y-m-d') : '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('paid_date')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
@@ -214,7 +214,7 @@
                                             <!-- Delivery Date -->
                                             <div>
                                                 <label for="delivery_date" class="block text-gray-700">Delivery Date</label>
-                                                <input type="date" id="delivery_date" name="delivery_date" value="{{ $orderDetail->delivery_date->format('Y-m-d') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                                <input type="date" id="delivery_date" name="delivery_date" value="{{ $orderDetail->delivery_date ? $orderDetail->delivery_date->format('Y-m-d') : '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                                 @error('delivery_date')
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 @enderror
