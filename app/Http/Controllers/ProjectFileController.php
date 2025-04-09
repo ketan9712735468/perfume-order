@@ -229,8 +229,8 @@ class ProjectFileController extends Controller
         $mergeFileName = $request->input('mergeFileName');
         $files = $project->files()->where('enabled', true)->get();
         $inventories = $project->inventories()->get();
-        $flaskApiUrl = 'http://127.0.0.1:5000/upload'; // Local Flask API URL
-        // $flaskApiUrl = "http://178.156.139.16:5000/upload"; // Live Flask API URL
+        // $flaskApiUrl = 'http://127.0.0.1:5000/upload'; // Local Flask API URL
+        $flaskApiUrl = "http://178.156.139.16:5000/upload"; // Live Flask API URL
         Log::debug('Checked files and mergeFileName', ['mergeFileName' => $mergeFileName, 'fileCount' => $files->count(), 'inventoryCount' => $inventories->count()]);
 
         // Check if there are files and inventories to be sent
@@ -341,8 +341,8 @@ class ProjectFileController extends Controller
         // Retrieve the files to attach
         $files = $project->files()->where('enabled', true)->get();
 
-        $flaskApiUrl = 'http://127.0.0.1:5000/manualSync'; // Local Flask API URL
-        // $flaskApiUrl = "http://178.156.139.16:5000/manualSync"; // Live Flask API URL
+        // $flaskApiUrl = 'http://127.0.0.1:5000/manualSync'; // Local Flask API URL
+        $flaskApiUrl = "http://178.156.139.16:5000/manualSync"; // Live Flask API URL
 
         try {
             // Create the HTTP request
